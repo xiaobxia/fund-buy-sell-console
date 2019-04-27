@@ -81,6 +81,11 @@
           <span>{{ scope.row.today_query }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="密码">
+        <template slot-scope="scope">
+          <span>{{ scope.row.password }}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="注册时间" width="200">
         <template slot-scope="scope">
           <span>{{ formatDateTime(scope.row.create_at) }}</span>

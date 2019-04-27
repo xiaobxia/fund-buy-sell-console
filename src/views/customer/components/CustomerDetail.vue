@@ -25,14 +25,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item prop="can_use_day" label="购买时间：">
-            <el-select v-model="dialogForm.can_use_day" :style="{width: '100%'}" class="filter-item">
-              <el-option :value="1" label="1交易日"/>
-              <el-option :value="5" label="5交易日"/>
-              <el-option :value="10" label="10交易日"/>
-              <el-option :value="20" label="20交易日"/>
-              <el-option :value="40" label="40交易日"/>
-            </el-select>
+          <el-form-item prop="can_use_day" label="可用时间">
+            <el-input v-model="dialogForm.can_use_day"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
