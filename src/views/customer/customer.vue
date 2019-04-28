@@ -71,9 +71,19 @@
           <el-tag :type="formatStatusType(scope.row.status)">{{ scope.row.status === 1 ? '正常':'拉黑' }}</el-tag>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="历史登录">
+        <template slot-scope="scope">
+          <span>{{ scope.row.history_login }}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="今日登录">
         <template slot-scope="scope">
           <span>{{ scope.row.today_login }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="历史策略请求">
+        <template slot-scope="scope">
+          <span>{{ scope.row.history_query }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="今日策略请求">
