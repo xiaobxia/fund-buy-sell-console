@@ -96,7 +96,7 @@
           <span>{{ scope.row.password }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="活跃天数" width="200">
+      <el-table-column align="center" label="活跃天数">
         <template slot-scope="scope">
           <span>{{ scope.row.active_days }}</span>
         </template>
