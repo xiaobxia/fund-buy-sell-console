@@ -96,6 +96,16 @@
           <span>{{ scope.row.password }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="活跃天数" width="200">
+        <template slot-scope="scope">
+          <span>{{ scope.row.active_days }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="上次活跃" width="200">
+        <template slot-scope="scope">
+          <span>{{ formatDateTime(scope.row.last_active_day) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="注册时间" width="200">
         <template slot-scope="scope">
           <span>{{ formatDateTime(scope.row.create_at) }}</span>
