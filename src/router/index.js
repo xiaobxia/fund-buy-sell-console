@@ -125,7 +125,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'detail',
-        component: () => import('@/views/content/channelDetail'),
+        component: () => import('@/views/content/contentDetail'),
         name: 'ContentDetail',
         meta: { title: '内容管理', roles: { include: ['admin'] }}
       }

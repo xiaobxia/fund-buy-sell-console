@@ -26,7 +26,9 @@
             <el-input v-model="dialogForm.positionContent"/>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+      </el-row>
+      <el-row :gutter="12">
+        <el-col :span="24">
           <el-form-item prop="marketWarn" label="波段操作">
             <el-input v-model="dialogForm.marketWarn"/>
           </el-form-item>
