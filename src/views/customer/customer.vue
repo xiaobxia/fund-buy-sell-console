@@ -51,6 +51,11 @@
           <span>{{ scope.row.name || '-' }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="已试用" width="200">
+        <template slot-scope="scope">
+          <el-tag :type="formatShiFouType(scope.row.if_test)">{{ scope.row.if_test ? '是':'否' }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="产品类型">
         <template slot-scope="scope">
           <span>{{ scope.row.buy_type || '-' }}</span>
@@ -61,34 +66,15 @@
           <span>{{ scope.row.can_use_day }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="奖励天数">
-        <template slot-scope="scope">
-          <span>{{ scope.row.reward }}</span>
-        </template>
-      </el-table-column>
       <el-table-column align="center" label="状态">
         <template slot-scope="scope">
           <el-tag :type="formatStatusType(scope.row.status)">{{ scope.row.status === 1 ? '正常':'拉黑' }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="历史登录">
-        <template slot-scope="scope">
-          <span>{{ scope.row.history_login }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="今日登录">
-        <template slot-scope="scope">
-          <span>{{ scope.row.today_login }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="历史策略请求">
-        <template slot-scope="scope">
-          <span>{{ scope.row.history_query }}</span>
-        </template>
-      </el-table-column>
       <el-table-column align="center" label="今日策略请求">
         <template slot-scope="scope">
-          <span>{{ scope.row.today_query }}</span>
+          <el-tag v-if="scope.row.today_query !== 0" type="warning">{{ scope.row.today_query }}</el-tag>
+          <span v-else>{{ scope.row.today_query }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="密码">
