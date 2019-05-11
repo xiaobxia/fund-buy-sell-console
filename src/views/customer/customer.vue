@@ -51,7 +51,7 @@
           <span>{{ scope.row.name || '-' }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="已试用" width="200">
+      <el-table-column align="center" label="已试用">
         <template slot-scope="scope">
           <el-tag :type="formatShiFouType(scope.row.if_test)">{{ scope.row.if_test ? '是':'否' }}</el-tag>
         </template>
@@ -264,6 +264,12 @@ export default {
       } else {
         return '-'
       }
+    },
+    ifClose(time) {
+      if (time) {
+        return moment().diff(time, 'hours') < 3
+      }
+      return false
     }
   }
 }

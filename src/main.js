@@ -14,6 +14,7 @@ import store from './store'
 import i18n from './lang' // Internationalization
 import './permission' // permission control
 import './mock' // simulation data
+import V_Echarts from 'vue-echarts-directive'
 
 import * as filters from './filters' // global filters
 import Http from '@/utils/httpUtil.js'
@@ -101,6 +102,12 @@ Vue.prototype.formatShiFou = function(status) {
     return '-'
   }
 }
+
+const install = function(Vue) {
+  Vue.directive('echarts', V_Echarts)
+}
+window.echarts = V_Echarts
+Vue.use(install); // eslint-disable-line
 
 new Vue({
   el: '#app',
