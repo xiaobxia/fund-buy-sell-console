@@ -13,8 +13,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item prop="name" label="微信id：">
+            <el-form-item prop="name" label="登录名：">
               <el-input v-model="searchForm.name"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item prop="wechat" label="微信：">
+              <el-input v-model="searchForm.wechat"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -46,9 +51,14 @@
       </el-form>
     </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="微信Id">
+      <el-table-column align="center" label="登录名">
         <template slot-scope="scope">
           <span>{{ scope.row.name || '-' }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="微信">
+        <template slot-scope="scope">
+          <span>{{ scope.row.wechat || '-' }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="已试用">
@@ -89,7 +99,7 @@
       </el-table-column>
       <el-table-column align="center" label="上次活跃" width="200">
         <template slot-scope="scope">
-          <span>{{ formatDateTime(scope.row.last_active_day) }}</span>
+          <span :class="{'red-text': ifClose(scope.row.last_active_day)}">{{ formatDateTime(scope.row.last_active_day) }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="注册时间" width="200">
@@ -146,6 +156,7 @@ import Pagination from '@/components/Pagination' // Secondary package based on e
 const searchFormBase = {
   status: '',
   name: '',
+  wechat: '',
   time: ['', '']
 }
 const dialogFormBase = {
@@ -267,7 +278,7 @@ export default {
     },
     ifClose(time) {
       if (time) {
-        return moment().diff(time, 'hours') < 3
+        return moment(time).diff(moment().format('YYYY-MM-DD') + ' 14:40:00', 'minutes') > 0
       }
       return false
     }

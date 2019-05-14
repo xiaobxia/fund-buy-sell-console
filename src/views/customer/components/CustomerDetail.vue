@@ -12,8 +12,13 @@
         type="info"/>
       <el-row :gutter="12">
         <el-col :span="6">
-          <el-form-item prop="name" label="微信Id">
+          <el-form-item prop="name" label="登录名">
             <el-input v-model="dialogForm.name"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item prop="wechat" label="微信">
+            <el-input v-model="dialogForm.wechat"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
