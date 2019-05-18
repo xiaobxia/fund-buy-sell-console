@@ -131,5 +131,24 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/gift',
+    component: Layout,
+    redirect: '/gift/detail',
+    name: 'Gift',
+    meta: {
+      title: '发奖',
+      icon: 'fas fa-database',
+      roles: { include: ['admin'] }
+    },
+    children: [
+      {
+        path: 'detail',
+        component: () => import('@/views/gift/giftDetail'),
+        name: 'GiftDetail',
+        meta: { title: '发奖管理', roles: { include: ['admin'] }}
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
