@@ -22,6 +22,14 @@
               <el-input v-model="searchForm.wechat"/>
             </el-form-item>
           </el-col>
+          <el-col :span="6">
+            <el-form-item prop="todayQuery" label="今日请求：">
+              <el-select v-model="searchForm.todayQuery" :style="{width: '100%'}" class="filter-item">
+                <el-option label="全部" value=""/>
+                <el-option :value="true" label="是"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row :gutter="12">
           <el-col :span="12">
@@ -33,6 +41,14 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item prop="sort" label="排序：">
+              <el-select v-model="searchForm.sort" :style="{width: '100%'}" class="filter-item">
+                <el-option label="注册" value=""/>
+                <el-option value="activeDay" label="活跃天数"/>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -157,6 +173,8 @@ const searchFormBase = {
   status: '',
   name: '',
   wechat: '',
+  sort: '',
+  todayQuery: '',
   time: ['', '']
 }
 const dialogFormBase = {
