@@ -65,6 +65,14 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="6">
+          <el-form-item prop="if_buy" label="已购买：">
+            <el-select v-model="dialogForm.if_buy" :style="{width: '100%'}" class="filter-item">
+              <el-option :value="true" label="是"/>
+              <el-option :value="false" label="否"/>
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
   </div>

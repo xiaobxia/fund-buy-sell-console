@@ -92,9 +92,9 @@
           <span>{{ scope.row.can_use_day }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="状态">
+      <el-table-column align="center" label="已购买">
         <template slot-scope="scope">
-          <el-tag :type="formatStatusType(scope.row.status)">{{ scope.row.status === 1 ? '正常':'拉黑' }}</el-tag>
+          <el-tag :type="formatShiFouType(scope.row.if_buy)">{{ scope.row.if_buy ? '是':'否' }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" label="今日策略请求">
