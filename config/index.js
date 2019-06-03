@@ -11,8 +11,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       "/fbsServer": {
-        // "target": "http://47.92.210.171:3051/"
-        "target": "http://localhost:3051/"
+        "target": "http://47.92.210.171:3051/"
+        // "target": "http://localhost:3051/"
       }
     },
 

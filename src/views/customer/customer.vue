@@ -4,15 +4,6 @@
       <el-form ref="searchForm" :model="searchForm" label-position="left" label-width="100px">
         <el-row :gutter="12">
           <el-col :span="6">
-            <el-form-item prop="status" label="状态：">
-              <el-select v-model="searchForm.status" :style="{width: '100%'}" class="filter-item">
-                <el-option label="全部" value=""/>
-                <el-option :value="1" label="正常"/>
-                <el-option :value="2" label="拉黑"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
             <el-form-item prop="name" label="登录名：">
               <el-input v-model="searchForm.name"/>
             </el-form-item>
@@ -20,6 +11,14 @@
           <el-col :span="6">
             <el-form-item prop="wechat" label="微信：">
               <el-input v-model="searchForm.wechat"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item prop="todayLogin" label="今日登录：">
+              <el-select v-model="searchForm.todayLogin" :style="{width: '100%'}" class="filter-item">
+                <el-option label="全部" value=""/>
+                <el-option :value="true" label="是"/>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -103,6 +102,12 @@
           <span v-else>{{ scope.row.today_query }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="今日登录">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.today_login !== 0" type="warning">{{ scope.row.today_login }}</el-tag>
+          <span v-else>{{ scope.row.today_login }}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="密码">
         <template slot-scope="scope">
           <span>{{ scope.row.password }}</span>
@@ -175,6 +180,7 @@ const searchFormBase = {
   wechat: '',
   sort: '',
   todayQuery: '',
+  todayLogin: '',
   time: ['', '']
 }
 const dialogFormBase = {
