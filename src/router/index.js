@@ -150,5 +150,24 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/valuation',
+    component: Layout,
+    redirect: '/valuation/detail',
+    name: 'Valuation',
+    meta: {
+      title: '指数估值',
+      icon: 'fas fa-database',
+      roles: { include: ['admin'] }
+    },
+    children: [
+      {
+        path: 'detail',
+        component: () => import('@/views/valuation/valuationDetail'),
+        name: 'ValuationDetail',
+        meta: { title: '指数估值', roles: { include: ['admin'] }}
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
