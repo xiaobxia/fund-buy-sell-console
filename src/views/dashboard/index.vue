@@ -21,7 +21,7 @@
           <div class="item-wrap">
             <div class="item">今日注册用户：<span class="number">{{ statistics.today_register_user }}</span></div>
             <div class="item">今日请求用户：<span class="number">{{ statistics.today_query_user }}</span></div>
-            <div class="item">今日请求次数：<span class="number">{{ statistics.today_query }}</span></div>
+            <div class="item">今日请求用户：<span class="number">{{ statistics.today_login_user }}</span></div>
           </div>
         </el-card>
       </el-col>
