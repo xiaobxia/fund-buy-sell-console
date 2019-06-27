@@ -113,6 +113,32 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/advertisement',
+    component: Layout,
+    redirect: '/advertisement/list',
+    name: 'Advertisement',
+    meta: {
+      title: '广告',
+      icon: 'fas fa-database',
+      roles: { include: ['admin'] }
+    },
+    children: [
+      {
+        path: 'edit',
+        component: () => import('@/views/advertisement/edit'),
+        name: 'AdvertisementDetail',
+        meta: { title: '添加广告', noCache: true, roles: { include: ['admin'] }},
+        hidden: true
+      },
+      {
+        path: 'list',
+        component: () => import('@/views/advertisement/list'),
+        name: 'AdvertisementList',
+        meta: { title: '广告', roles: { include: ['admin'] }}
+      }
+    ]
+  },
+  {
     path: '/content',
     component: Layout,
     redirect: '/content/detail',
