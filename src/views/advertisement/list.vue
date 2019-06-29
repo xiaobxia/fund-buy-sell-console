@@ -40,15 +40,20 @@
       </el-form>
     </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
+      <el-table-column type="expand" label="展开" width="50">
+        <template slot-scope="props">
+          <img v-if="props.row.img_url" :src="props.row.img_url" style="height: 700px;width: auto;" class="list-img-icon" alt="">
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="排序值">
+        <template slot-scope="scope">
+          <span>{{ scope.row.sortIndex || 0 }}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.type }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="图">
-        <template slot-scope="scope">
-          <img v-if="scope.row.img_url" :src="scope.row.img_url" class="list-img-icon" alt="">
-          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="状态">
@@ -60,6 +65,7 @@
         <template slot-scope="scope">
           <el-button size="mini" @click="handleChangeStatus(scope.row)">{{ scope.row.status === 1?'下架':'上架' }}
           </el-button>
+          <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -145,7 +151,37 @@ export default {
       })
     },
     handleCreate() {
-      this.$router.push({ path: '/advertisement/edit' })
+      this.$router.push({ path: '/advertisement/add' })
+    },
+    verifyAfterDelete() {
+      if (this.current < 2) {
+        if (this.listQuery.pageSize > 1) {
+          this.listQuery.pageSize = this.listQuery.pageSize - 1
+        }
+      }
+    },
+    handleDelete(row) {
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.post('advertisement/deleteAdvertisement', {
+          _id: row._id
+        }).then((res) => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.verifyAfterDelete()
+          this.initPage()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     }
   }
 }

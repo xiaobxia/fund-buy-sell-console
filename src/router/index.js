@@ -124,7 +124,7 @@ export const asyncRouterMap = [
     },
     children: [
       {
-        path: 'edit',
+        path: 'add',
         component: () => import('@/views/advertisement/edit'),
         name: 'AdvertisementDetail',
         meta: { title: '添加广告', noCache: true, roles: { include: ['admin'] }},

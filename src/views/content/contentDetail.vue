@@ -11,17 +11,7 @@
         title="内容设置"
         type="info"/>
       <el-row :gutter="12">
-        <el-col :span="6">
-          <el-form-item prop="fixedInvestmentContent" label="定投：">
-            <el-select v-model="dialogForm.fixedInvestmentContent" :style="{width: '100%'}" class="filter-item">
-              <el-option value="严重低估区间，坚定定投" label="严重低估区间，坚定定投"/>
-              <el-option value="低估区间，乐观定投" label="低估区间，乐观定投"/>
-              <el-option value="估值合理区间，谨慎定投" label="估值合理区间，谨慎定投"/>
-              <el-option value="高估区间，停止定投" label="高估区间，停止定投"/>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
+        <el-col :span="24">
           <el-form-item prop="positionContent" label="波段仓位">
             <el-input v-model="dialogForm.positionContent"/>
           </el-form-item>

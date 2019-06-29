@@ -37,6 +37,20 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="6">
+          <el-form-item prop="status" label="状态：">
+            <el-select v-model="dialogForm.status" :style="{width: '100%'}" class="filter-item">
+              <el-option label="全部" value=""/>
+              <el-option :value="1" label="上架"/>
+              <el-option :value="2" label="下架"/>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item prop="sortIndex" label="排序：">
+            <el-input v-model="dialogForm.sortIndex"/>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
   </div>
