@@ -113,85 +113,21 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/advertisement',
+    path: '/emailActive',
     component: Layout,
-    redirect: '/advertisement/list',
-    name: 'Advertisement',
+    redirect: '/emailActive/list',
+    name: 'EmailActive',
     meta: {
-      title: '广告',
+      title: '邮箱',
       icon: 'fas fa-database',
       roles: { include: ['admin'] }
     },
     children: [
-      {
-        path: 'add',
-        component: () => import('@/views/advertisement/edit'),
-        name: 'AdvertisementDetail',
-        meta: { title: '添加广告', noCache: true, roles: { include: ['admin'] }},
-        hidden: true
-      },
       {
         path: 'list',
-        component: () => import('@/views/advertisement/list'),
-        name: 'AdvertisementList',
-        meta: { title: '广告', roles: { include: ['admin'] }}
-      }
-    ]
-  },
-  {
-    path: '/content',
-    component: Layout,
-    redirect: '/content/detail',
-    name: 'Content',
-    meta: {
-      title: '内容',
-      icon: 'fas fa-database',
-      roles: { include: ['admin'] }
-    },
-    children: [
-      {
-        path: 'detail',
-        component: () => import('@/views/content/contentDetail'),
-        name: 'ContentDetail',
-        meta: { title: '内容管理', roles: { include: ['admin'] }}
-      }
-    ]
-  },
-  {
-    path: '/gift',
-    component: Layout,
-    redirect: '/gift/detail',
-    name: 'Gift',
-    meta: {
-      title: '发奖',
-      icon: 'fas fa-database',
-      roles: { include: ['admin'] }
-    },
-    children: [
-      {
-        path: 'detail',
-        component: () => import('@/views/gift/giftDetail'),
-        name: 'GiftDetail',
-        meta: { title: '发奖管理', roles: { include: ['admin'] }}
-      }
-    ]
-  },
-  {
-    path: '/valuation',
-    component: Layout,
-    redirect: '/valuation/detail',
-    name: 'Valuation',
-    meta: {
-      title: '指数估值',
-      icon: 'fas fa-database',
-      roles: { include: ['admin'] }
-    },
-    children: [
-      {
-        path: 'detail',
-        component: () => import('@/views/valuation/valuationDetail'),
-        name: 'ValuationDetail',
-        meta: { title: '指数估值', roles: { include: ['admin'] }}
+        component: () => import('@/views/emailActive/list'),
+        name: 'EmailActiveList',
+        meta: { title: '邮箱', roles: { include: ['admin'] }}
       }
     ]
   },

@@ -2,16 +2,16 @@
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
       <div class="title-container">
-        <h3 class="title">基金平台</h3>
+        <h3 class="title">平台</h3>
       </div>
-      <el-form-item prop="username">
+      <el-form-item prop="email">
         <span class="icon-container">
           <i class="fas fa-user" />
         </span>
         <el-input
-          v-model="loginForm.username"
-          placeholder="登录名"
-          name="username"
+          v-model="loginForm.email"
+          placeholder="邮箱"
+          name="email"
           type="text"
           auto-complete="on"
         />
@@ -52,11 +52,11 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
+        email: '',
         password: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur' }],
+        email: [{ required: true, trigger: 'blur' }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',

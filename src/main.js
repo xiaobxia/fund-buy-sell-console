@@ -73,7 +73,7 @@ Vue.prototype.formatStatusType = function(status) {
   }
 }
 
-Vue.prototype.formatIfContact = function(status) {
+Vue.prototype.$formatTrueFalse = function(status) {
   if (status === true) {
     return 'success'
   } else if (status === false) {

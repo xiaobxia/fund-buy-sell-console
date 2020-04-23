@@ -1,6 +1,5 @@
 import { getToken } from '@/utils/auth'
 import Http from '@/utils/httpUtil'
-import md5 from 'md5'
 import storageUtil from '@/utils/storageUtil'
 
 const user = {
@@ -48,10 +47,10 @@ const user = {
   actions: {
     // 用户名登录
     LoginByUsername({ commit }, userInfo) {
-      const username = userInfo.username.trim()
+      const email = userInfo.email.trim()
       return Http.post('auth/login', {
-        account: username,
-        password: md5(userInfo.password),
+        email: email,
+        password: userInfo.password,
         platform: 'pc'
       }).then((data) => {
         window._token = data.data.token
