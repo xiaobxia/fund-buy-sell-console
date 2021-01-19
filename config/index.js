@@ -1,28 +1,36 @@
 'use strict'
 // Template version: 1.2.6
 // see http://vuejs-templates.github.io/webpack for documentation.
-
+const proxyTable = require('./proxyTable')
 const path = require('path')
+
+const newProxyTable = {}
+for (const key in proxyTable) {
+  proxyTable[key].forEach((item)=>{
+    let row = {
+      target: item.url,
+      changeOrigin: true,
+      pathRewrite: {}
+    }
+    row.pathRewrite[`^/${key}`] = ''
+    newProxyTable[`/${key}/${item.base}`] = row
+  })
+}
 
 module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      "/fbsServer": {
-        // "target": "http://47.92.210.171:3051/"
-        "target": "http://localhost:3051/"
-      }
-    },
-
+    proxyTable: newProxyTable,
     // Various Dev Server settings
 
     // can be overwritten by process.env.HOST
     // if you want dev by ip, please set host: '0.0.0.0'
-    host: 'localhost',
-    port: 3003, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: true,
+    // host: 'localhost',
+    host: '0.0.0.0',
+    port: 4015, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: false,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
@@ -58,11 +66,13 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: '',
     // 解决打包时font的问题
-    assetsPathInCss: '../../',
     // assetsPublicPath: './',
-    assetsPublicPath: './',
-    cdnPublicPath: 'http://funduseconsolecdn.xiaobxia.com/',
-    ifCdn: true,
+    // 一个端口部署多个vue项目，assetsPublicPath: "/项目名/"
+    // nginx: location /项目名 {}
+    assetsPathInCss: '../../',
+    assetsPublicPath: '/paycenterWeb/',
+    cdnPublicPath: 'http://bkt.clouddn.com/',
+    ifCdn: false,
 
     /**
      * Source Maps

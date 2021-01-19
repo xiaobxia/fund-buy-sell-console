@@ -1,25 +1,69 @@
 <template>
   <div class="navbar">
     <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
-    <breadcrumb class="breadcrumb-container"/>
+    <span class="period">{{ sysName }}</span>
     <div class="right-menu">
-      <el-tooltip content="全屏" effect="dark" placement="bottom">
-        <screenfull class="screenfull right-menu-item"/>
-      </el-tooltip>
-      <el-dropdown class="avatar-container right-menu-item" trigger="click">
-        <div class="avatar-wrapper">
-          <img src="../../../assets/头像.png" class="user-avatar">
-          <i class="el-icon-caret-bottom"/>
+      <span
+        class="user-center"
+        style="margin-right: 20px"
+        @click="toPathO(sysType === 'cz' ? '/ucenterCzWeb/#/home' : '/ucenterGhWeb/#/home')"
+      >
+        <i
+          class="el-icon-s-home"
+          title="工作平台"
+        />
+        工作平台
+      </span>
+      <!--<el-dropdown v-if="ifShowYear" class="right-item" trigger="click" @command="yearChange">-->
+      <!--<span class="el-dropdown-link">-->
+      <!--{{ year }}<i class="el-icon-arrow-down el-icon&#45;&#45;right"/>-->
+      <!--</span>-->
+      <!--<el-dropdown-menu slot="dropdown">-->
+      <!--<div class="app-el">-->
+      <!--<el-dropdown-item v-for="(item, index) in $YEAR_LIST" :key="index" :command="item.value">{{ item.label }}</el-dropdown-item>-->
+      <!--</div>-->
+      <!--</el-dropdown-menu>-->
+      <!--</el-dropdown>-->
+      <!--<el-dropdown class="right-item" trigger="click" @command="orgChange">-->
+      <!--<span class="el-dropdown-link">-->
+      <!--{{ orgInfo.name || '' }}<i class="el-icon-arrow-down el-icon&#45;&#45;right"/>-->
+      <!--</span>-->
+      <!--<el-dropdown-menu slot="dropdown" popper-class="app-el">-->
+      <!--<div class="app-el">-->
+      <!--<el-dropdown-item v-for="(item, index) in orgList" :key="index" :command="item.phid">{{ item.name }}</el-dropdown-item>-->
+      <!--</div>-->
+      <!--</el-dropdown-menu>-->
+      <!--</el-dropdown>-->
+      <el-popover
+        v-model="orgListVisible"
+        class="org-choose"
+        placement="top"
+        width="400">
+        <filter-block-tree
+          v-if="orgListVisible"
+          ref="FilterBlockTree"
+          :has-callback="true"
+          :check-strictly="true"
+          :search-type="1"
+          :user-id="$commonQueryParam.userId"
+          :current-node="orgInfo"
+          :current-node-id="orgInfo.phid"
+          :first-url="'ucenterGh/org/getNowUserFirstOrg'"
+          :filter-type="'single'"
+          :expand-on-click-node="false"
+          @handleNodeClick="orgChange"
+        />
+        <div slot="reference" class="choose-org-title">
+          {{ orgName }}
+          <i class="el-icon-arrow-down el-icon--right"/>
         </div>
+      </el-popover>
+      <el-dropdown class="right-item" trigger="click" @command="userChange">
+        <span class="el-dropdown-link">
+          <span><i class="el-icon-user" style="margin-right: 5px"/>{{ userInfo.userName }}</span>
+        </span>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              主页
-            </el-dropdown-item>
-          </router-link>
-          <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">退出登录</span>
-          </el-dropdown-item>
+          <el-dropdown-item command="out">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -28,30 +72,81 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import Screenfull from '@/components/Screenfull'
+import ThemePicker from '@/components/ThemePicker'
+import FilterBlockTree from '@/components/FilterBlockTree'
+import setting from '@/setting'
+// import appCommonUtil from '@/utils/appCommonUtil'
 
 export default {
   components: {
-    Breadcrumb,
     Hamburger,
-    Screenfull
+    ThemePicker,
+    FilterBlockTree
+  },
+  data() {
+    return {
+      year: this.$commonQueryParam.year,
+      orgListVisible: false,
+      orgName: '',
+      sysType: setting.sysType
+    }
   },
   computed: {
     ...mapGetters([
       'sidebar',
-      'device'
-    ])
+      'userInfo',
+      'orgInfo',
+      'orgList'
+    ]),
+    ifShowYear() {
+      return true
+    },
+    sysName() {
+      return '支付中心'
+    }
+  },
+  watch: {
+  },
+  created() {
+  },
+  mounted() {
+    this.orgName = this.orgInfo.name
   },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('toggleSideBar')
     },
-    logout() {
-      this.$store.dispatch('LogOut').then(() => {
-        location.reload()// In order to re-instantiate the vue-router object to avoid bugs
+    userChange(command) {
+      if (command === 'out') {
+        // appCommonUtil.removeLoginAuth()
+        // window.location.reload()
+        this.$store.dispatch('Logout')
+      }
+    },
+    yearChange(command) {
+      this.year = command
+      return this.$store.dispatch('setYear', parseInt(command)).then(() => {
+        window.location.reload()
       })
+    },
+    orgChange(node) {
+      this.orgName = node.name
+      this.orgListVisible = false
+      return this.$store.dispatch('setOrgInfo', { ...node, source: 'navbar' }).then(() => {
+        // 直接刷界面，因为切换以后用户不一定当前页的权限
+        setTimeout(() => {
+          window.location.reload()
+        }, 100)
+      })
+    },
+    toPath(path) {
+      this.$router.push({
+        path
+      })
+    },
+    toPathO(path) {
+      window.location = path
     }
   }
 }
@@ -59,28 +154,51 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 .navbar {
-  height: 50px;
-  line-height: 50px;
-  border-radius: 0px !important;
-  border-bottom: 1px solid #eee;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 55px;
+  z-index: 1000;
+  line-height: 55px;
+  border-radius: 0 !important;
+  background-size: cover;
+  color: #ffffff;
   .hamburger-container {
-    line-height: 58px;
-    height: 50px;
+    line-height: 65px;
+    height: 55px;
     float: left;
-    padding: 0 10px;
+    padding: 0 20px;
   }
   .breadcrumb-container{
     float: left;
+  }
+  .app-icon {
+    height: 26px;
+    vertical-align: middle;
+  }
+  .period {
+    margin-left: 10px;
+    font-size: 20px;
+    vertical-align: middle;
   }
   .errLog-container {
     display: inline-block;
     vertical-align: top;
   }
   .right-menu {
-    float: right;
+    position: absolute;
+    right: 0;
+    top: 0;
     height: 100%;
+    padding: 17px 20px;
+    line-height: 21px;
     &:focus{
      outline: none;
+    }
+    .right-item {
+      color: #fff;
+      cursor: pointer;
+      margin-right: 20px;
     }
     .right-menu-item {
       display: inline-block;
@@ -96,7 +214,7 @@ export default {
       vertical-align: 15px;
     }
     .avatar-container {
-      height: 50px;
+      height: 55px;
       margin-right: 30px;
       .avatar-wrapper {
         margin-top: 5px;
@@ -117,5 +235,55 @@ export default {
       }
     }
   }
+}
+
+.org-choose {
+  display: inline-block;
+  margin-right: 15px;
+
+  .choose-org-title {
+    cursor: pointer;
+  }
+}
+
+.filter-content {
+  margin-bottom: 15px;
+}
+
+.orgList {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding: 5px;
+
+      &:last-child {
+        margin: 0;
+      }
+
+      &:hover {
+        background: #fff;
+        transition: .2s all ease;
+      }
+    }
+  }
+}
+
+.infinite-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 </style>

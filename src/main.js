@@ -1,11 +1,14 @@
+// 兼容ie
+import 'babel-polyfill'
 import Vue from 'vue'
-import moment from 'moment'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
-import '../static/web-fonts-with-css/css/fontawesome-all.css'
-import './theme/index.css'
 import Element from 'element-ui'
-
+// 库样式
+import '@/styles/element-variables.scss' // global css
+import moment from 'moment'
 import '@/styles/index.scss' // global css
+// 项目主题样式
+import '@/styles/theme/project-theme.scss'
 
 import App from './App'
 import router from './router'
@@ -13,101 +16,191 @@ import store from './store'
 
 import i18n from './lang' // Internationalization
 import './permission' // permission control
-import './mock' // simulation data
-import V_Echarts from 'vue-echarts-directive'
+import ScrollTable from '@/directive/scrollTable'
+import MessageBox from './components/messageDialog'
+import Http from '@/utils/httpUtil.js'
+import numberUtil from '@/utils/numberUtil.js'
+import stringUtil from '@/utils/stringUtil.js'
+import printUtil from '@/utils/printUtil.js'
+import transformElementTableUtil from '@/utils/transformElementTableUtil.js'
+import fileUtil from '@/utils/fileUtil.js'
+
+import typeValue from '@/common/typeValue' // global filters
+import authUtil from '@/utils/authUtil.js'
+
+import popup from '@/common/popup'
 
 import * as filters from './filters' // global filters
-import Http from '@/utils/httpUtil.js'
 
 Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)
 })
+
+// 滚动加载表格
+Vue.use(ScrollTable)
+
+Vue.use(MessageBox)
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
-Vue.config.productionTip = false
+// HTTP工具
 Vue.prototype.$http = Http
-Vue.prototype.formatDateTime = function(str) {
-  if (str) {
-    return moment(str).format('YYYY-MM-DD HH:mm:ss')
-  } else {
-    return '-'
-  }
-}
 
-Vue.prototype.formatRoles = function(roles) {
-  if (roles && roles.length) {
-    const value = roles[0]
-    const rolesMap = {
-      'admin': '管理员',
-      'test': '测试',
-      'channel': '渠道',
-      'user': '客户'
+function registerUtil(util) {
+  for (const key in util) {
+    if (util.hasOwnProperty(key)) {
+      Vue.prototype['$' + key] = util[key]
     }
-    return rolesMap[value]
+  }
+}
+// 数字工具
+registerUtil(numberUtil)
+// 字符串工具
+registerUtil(stringUtil)
+// 文件工具
+registerUtil(fileUtil)
+// 常量格式化
+registerUtil(typeValue)
+// token
+registerUtil(authUtil)
+// 转换工具
+registerUtil(transformElementTableUtil)
+// 打印工具
+registerUtil(printUtil)
+
+// 弹窗工具
+Vue.prototype.$popup = popup
+
+// 按钮级别鉴权
+Vue.prototype.$hasPermission = function(key) {
+  return true
+  // return store.getters.menuList.indexOf(key) !== -1
+}
+
+// 删除后获取分页位置
+Vue.prototype.$getPageIndexAfterDelete = function(pageIndex, size, total, deleteNum) {
+  deleteNum = deleteNum || 1
+  let res = total - deleteNum
+  if (res < 0) {
+    res = 0
+  }
+  const newAll = pageIndex * size
+  if (newAll <= res) {
+    return pageIndex
   } else {
-    return '-'
+    return Math.ceil(res / size)
   }
 }
 
-Vue.prototype.formatStatus = function(status) {
-  if (status === 1) {
-    return '已上架'
-  } else if (status === 2) {
-    return '已下架'
-  } else {
-    return '未知'
+Vue.prototype.$formatToDay = function(day) {
+  if (!day) {
+    return ''
   }
+  return moment(day).format('YYYY-MM-DD')
 }
 
-Vue.prototype.formatStatusType = function(status) {
-  if (status === 1) {
-    return 'success'
-  } else if (status === 2) {
-    return 'danger'
-  } else {
-    return 'danger'
-  }
+Vue.prototype.$getDiffHour = function(checkBeginTime) {
+  return moment().diff(checkBeginTime, 'hours')
 }
 
-Vue.prototype.$formatTrueFalse = function(status) {
-  if (status === true) {
-    return 'success'
-  } else if (status === false) {
-    return 'info'
-  } else {
-    return 'danger'
-  }
+Vue.prototype.$numberClass = function(number, ifRed) {
+  number = parseFloat(number || 0)
+  return number < 0 ? 'red-text' : ''
 }
 
-Vue.prototype.formatShiFouType = function(status) {
-  if (status === true) {
-    return 'success'
-  } else if (status === false) {
-    return 'info'
-  } else {
-    return 'danger'
-  }
+Vue.prototype.$getDocumentHtml = function() {
+  return document.getElementsByTagName('html')[0]
 }
 
-Vue.prototype.formatShiFou = function(status) {
-  if (status === true) {
-    return '是'
-  } else if (status === false) {
-    return '否'
-  } else {
-    return '-'
-  }
+Vue.prototype.$filterCheckboxGroup = function(list) {
+  const newList = []
+  list.forEach((item) => {
+    if (item) {
+      newList.push(item)
+    }
+  })
+  return newList
 }
 
-const install = function(Vue) {
-  Vue.directive('echarts', V_Echarts)
+Vue.prototype.$filterBlankValue = function(tar) {
+  const row = {}
+  for (const key in tar) {
+    if (tar.hasOwnProperty(key)) {
+      if (tar[key] !== '') {
+        row[key] = tar[key]
+      }
+    }
+  }
+  return row
 }
-window.echarts = V_Echarts
-Vue.use(install); // eslint-disable-line
+
+// 科目归类
+Vue.prototype.$groupSubjectList = function(list, model) {
+  const caiList = ['资产', '负债', '净资产', '收入', '支出']
+  const yuList = ['预算收入', '预算支出', '预算结余']
+  const row = {}
+  list.forEach((item) => {
+    if (model === 'cai') {
+      if (caiList.indexOf(item.subType) === -1) {
+        return
+      }
+    } else if (model === 'yu') {
+      if (yuList.indexOf(item.subType) === -1) {
+        return
+      }
+    }
+    if (row[item.subType]) {
+      row[item.subType].push(item)
+    } else {
+      row[item.subType] = [item]
+    }
+  })
+  const result = []
+  for (const key in row) {
+    if (row.hasOwnProperty(key)) {
+      result.push({
+        label: key,
+        options: [...row[key]]
+      })
+    }
+  }
+  return result
+}
+
+Vue.prototype.$deepClone = function(data) {
+  return JSON.parse(JSON.stringify(data))
+}
+
+Vue.prototype.$getDeclareType = function(orYear) {
+  if (orYear === 0 || orYear === 1) {
+    return ['1', '2'][orYear]
+  }
+  return ''
+}
+
+Vue.prototype.$setDateRange = function(form, dateKey, startKey, endKey) {
+  const date = form[dateKey] || ['', '']
+  form[startKey] = date[0] || ''
+  form[endKey] = date[1] || ''
+}
+
+function getMoney(val) {
+  return parseFloat(val || 0) || 0
+}
+
+Vue.prototype.$getMoney = getMoney
+
+Vue.prototype.$getResMoney = function(a, b) {
+  return getMoney(a) - getMoney(b)
+}
+
+// 全局数据
+window.$nowYear = new Date().getFullYear()
+
+Vue.config.productionTip = false
 
 new Vue({
   el: '#app',

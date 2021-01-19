@@ -28,6 +28,14 @@ export const constantRouterMap = [
     }
   },
   {
+    path: '/home',
+    component: () => import('@/views/home/index'),
+    hidden: true,
+    meta: {
+      auth: true
+    }
+  },
+  {
     path: '/auth-redirect',
     component: () => import('@/views/login/authredirect'),
     hidden: true,
@@ -46,90 +54,86 @@ export const constantRouterMap = [
     hidden: true
   },
   {
+    path: '/entryContract',
+    component: () => import('@/views/entry/contract'),
+    hidden: true,
+    meta: {
+      auth: false
+    }
+  },
+  {
+    path: '/entryAsset',
+    component: () => import('@/views/entry/asset'),
+    hidden: true,
+    meta: {
+      auth: false
+    }
+  },
+  {
+    path: '/entryAssetsManage',
+    component: () => import('@/views/entry/assetsManage'),
+    hidden: true,
+    meta: {
+      auth: false
+    }
+  },
+  {
     path: '',
     component: Layout,
-    redirect: 'dashboard',
-    children: [
-      {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: '主页', icon: 'fas fa-tachometer-alt', noCache: true }
-      }
-    ]
+    // 可以被重设
+    redirect: '/bankDoc/index'
   }
 ]
 
-export default new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
-})
+export const asyncRouterMapWithRoles = [
+]
 
 export const asyncRouterMap = [
   {
-    path: '/user',
+    path: `/bankDoc`,
+    name: '下级银行档案',
+    meta: { title: '下级银行档案', icon: 'icon-newgrand icon-newgrand-pc-yhda' },
     component: Layout,
-    redirect: '/user/list',
-    name: 'User',
-    meta: {
-      title: '管理员',
-      icon: 'fas fa-user',
-      roles: { include: ['admin'] }
-    },
     children: [
       {
-        path: 'list',
-        component: () => import('@/views/user/list'),
-        name: 'UserList',
-        meta: { title: '管理员列表', roles: { include: ['admin'] }}
+        path: 'index',
+        name: '下级银行档案-1',
+        component: () => import('@/views/bankDoc/index.vue'),
+        meta: { title: '下级银行档案' }
       }
     ]
   },
   {
-    path: '/customer',
+    path: `/payPlatform`,
+    name: '支付平台',
+    meta: { title: '支付平台', icon: 'icon-newgrand icon-newgrand-pc-zfpt' },
     component: Layout,
-    redirect: '/customer/viewLog',
-    name: 'Customer',
-    meta: {
-      title: '用户',
-      icon: 'fas fa-database',
-      roles: { include: ['admin'] }
-    },
     children: [
       {
-        path: 'edit/:id',
-        component: () => import('@/views/customer/edit'),
-        name: 'CustomerDetail',
-        meta: { title: '编辑用户', noCache: true, roles: { include: ['admin'] }},
-        hidden: true
-      },
-      {
-        path: 'customer',
-        component: () => import('@/views/customer/customer'),
-        name: 'CustomerList',
-        meta: { title: '注册用户', roles: { include: ['admin'] }}
-      }
-    ]
-  },
-  {
-    path: '/emailActive',
-    component: Layout,
-    redirect: '/emailActive/list',
-    name: 'EmailActive',
-    meta: {
-      title: '邮箱',
-      icon: 'fas fa-database',
-      roles: { include: ['admin'] }
-    },
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/emailActive/list'),
-        name: 'EmailActiveList',
-        meta: { title: '邮箱', roles: { include: ['admin'] }}
+        path: 'index',
+        name: '支付平台-1',
+        component: () => import('@/views/payPlatform/index.vue'),
+        meta: { title: '支付平台' }
       }
     ]
   },
   { path: '*', redirect: '/404', hidden: true }
 ]
+
+const createRouter = () => {
+  return new Router({
+    // mode: 'history', // require service support
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRouterMap
+  })
+}
+
+const router = createRouter()
+
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
+}
+
+export default router

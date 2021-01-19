@@ -1,138 +1,133 @@
 import axios from 'axios'
 import qs from 'qs'
 import { Message } from 'element-ui'
+import urlUtil from './urlUtil'
 import storageUtil from '@/utils/storageUtil'
-import router from '@/router/index'
-const basePath = '/fbsServer/'
+import authUtil from '@/utils/authUtil'
+import appCommonUtil from '@/utils/appCommonUtil'
+import setting from '@/setting'
 
-axios.interceptors.request.use(function(config) {
-  config.headers.token = window._token || localStorage.getItem('token') || ''
-  return config
-}, function(error) {
-  return Promise.reject(error)
-})
+let basePath = '/'
+// 默认连接地址，只在调试时有用
+if (process.env.NODE_ENV === 'development') {
+  basePath = `/${urlUtil.getQueryStringArgs('pt') || 'local'}/`
+}
 
-axios.interceptors.response.use(function(response) {
-  if (response.data.success === false) {
-    console.error(response.data.message)
-    if (response.data.code === 401) {
-      storageUtil.initUserInfo({
-        isLogin: false
-      })
-      router.push('/login')
-    } else {
-      Message({
-        message: response.data.message,
-        type: 'error',
-        duration: 5 * 1000
-      })
-    }
-    console.log('interceptors')
-    return Promise.reject(new Error(response.data.message))
+axios.interceptors.request.use(
+  function(config) {
+    config.headers.token = authUtil.getToken() || ''
+    config.headers.currentOrgId = storageUtil.getData('appConfig', 'orgId') || ''
+    // 接口统计
+    config.metadata = { startTime: new Date() }
+    return config
+  },
+  function(error) {
+    return Promise.reject(error)
   }
-  return response
-}, function(error) {
-  Message({
-    message: error.message,
-    type: 'error',
-    duration: 5 * 1000
-  })
-  console.log('interceptors error')
-  return Promise.reject(error)
-})
+)
+
+axios.interceptors.response.use(
+  function(response) {
+    if (response.data.status === false) {
+      if (
+        response.data.code === 400 &&
+        response.data.message === '用户未登录'
+      ) {
+        // 未登录
+        // 有些接口可以不拦截
+        if (!response.config.noAuth) {
+          Message({
+            message: response.data.message,
+            type: 'error',
+            duration: 2 * 1000
+          })
+          appCommonUtil.removeLoginAuth()
+          window.location.reload()
+        }
+      } else {
+        Message({
+          message: response.data.message,
+          type: 'error',
+          duration: 2 * 1000
+        })
+      }
+      return Promise.reject(new Error(response.data.message))
+    }
+    return response
+  },
+  function(error) {
+    Message({
+      message: error.message,
+      type: 'error',
+      duration: 2 * 1000
+    })
+    console.log('interceptors error')
+    return Promise.reject(error)
+  }
+)
+
+function replacePath(path) {
+  const ucenterPathList = ['ucenter', 'ucenterCz', 'ucenterGh']
+  const accountPathList = ['account', 'accountCz', 'accountGh']
+  const ucenterRes = setting.sysType === 'cz' ? 'ucenterCz' : 'ucenterGh'
+  const accountRes = setting.sysType === 'cz' ? 'accountCz' : 'accountGh'
+  if (ucenterPathList.indexOf(path) !== -1) {
+    return ucenterRes
+  }
+  if (accountPathList.indexOf(path) !== -1) {
+    return accountRes
+  }
+  // // 线上是pcenterGh
+  // // 本地是pcenterGH
+  // if (process.env.NODE_ENV === 'development') {
+  //   path = path.replace('pcenterGh', 'pcenterGH')
+  // }
+  return path
+}
 
 function makeUrl(url) {
-  if (url.startsWith('/') || url.startsWith('http://') || url.startsWith('https://')) {
+  if (
+    url.startsWith('/') ||
+    url.startsWith('http://') ||
+    url.startsWith('https://')
+  ) {
     return url
   } else {
+    const list = url.split('/')
+    list[0] = replacePath(list[0])
+    url = list.join('/')
     return `${basePath}${url}`
   }
 }
+
 const Http = {
   get(url, query, options) {
     let queryString = ''
     if (query) {
-      query.timestamp = new Date().getTime()
-      queryString = qs.stringify(query)
+      query.uuId = new Date().getTime()
     } else {
-      queryString = qs.stringify({ timestamp: new Date().getTime() })
+      query = { uuId: new Date().getTime() }
     }
-    return axios.get(makeUrl(url + (queryString ? '?' + queryString : '')), options).then(data => data.data)
+    queryString = qs.stringify(query)
+    return axios
+      .get(makeUrl(url + (queryString ? '?' + queryString : '')), options)
+      .then(data => data.data)
   },
-
-  getWithCache(url, query, cache, options) {
-    let queryString = ''
-    let cacheKey = url
-    if (query) {
-      cacheKey += qs.stringify({
-        ...query
-      })
-      query.timestamp = new Date().getTime()
-      queryString = qs.stringify(query)
-    } else {
-      queryString = qs.stringify({ timestamp: new Date().getTime() })
-    }
-    let cacheData = localStorage.getItem(cacheKey)
-    if (cacheData) {
-      const cacheDataRaw = JSON.parse(cacheData)
-      // 可以使用缓存
-      if (!((Date.now() - cacheDataRaw.time) > cache.interval * 1000)) {
-        return new Promise((resolve, reject) => {
-          resolve(cacheDataRaw.data)
-        })
-      }
-    }
-    return axios.get(makeUrl(url + (queryString ? '?' + queryString : '')), options).then(data => {
-      cacheData = {
-        time: Date.now(),
-        data: data.data
-      }
-      localStorage.setItem(cacheKey, JSON.stringify(cacheData))
-      return data.data
-    })
-  },
-
-  getRaw(url, query, options) {
-    let queryString = ''
-    if (query) {
-      query.timestamp = new Date().getTime()
-      queryString = qs.stringify(query)
-    } else {
-      queryString = qs.stringify({ timestamp: new Date().getTime() })
-    }
-    return axios.get(makeUrl(url + (queryString ? '?' + queryString : '')), options)
-  },
-
   post(url, param, options) {
-    return axios.post(makeUrl(url), qs.stringify(param), options).then(data => data.data)
+    return axios
+      .post(makeUrl(url), param, options)
+      .then(data => data.data)
   },
-
-  postRaw(url, param, options) {
-    return axios.post(makeUrl(url), qs.stringify(param), options)
+  put(url, param, options) {
+    return axios.put(makeUrl(url), param, options).then(data => data.data)
   },
-
-  postJSON(url, param, options) {
-    return axios.post(makeUrl(url), param, options).then(data => data.data)
+  postJson(url, param, options) {
+    param = param || {}
+    return axios
+      .post(makeUrl(url), qs.stringify(param), options)
+      .then(data => data.data)
   },
-
-  postJSONRaw(url, param, options) {
-    return axios.post(makeUrl(url), param, options)
-  },
-
-  delete(url, options) {
-    return axios.delete(makeUrl(url), options).then(data => data.data)
-  },
-
-  deleteRaw(url, options) {
-    return axios.delete(makeUrl(url), options)
-  },
-
-  jsonp(url, options) {
-    return axios.jsonp(makeUrl(url), options)
-  },
-  generateUrl(url) {
-    return makeUrl(url)
-  }
+  makeUrl
 }
 
 export default Http

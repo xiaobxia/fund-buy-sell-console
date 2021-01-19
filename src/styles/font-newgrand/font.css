@@ -1,0 +1,106 @@
+@font-face {
+	font-family: "iconfont-newgrand";
+	src: url('iconfont-newgrand.eot');
+	src: url('iconfont-newgrand.eot?#iefix') format('eot'),
+		url('iconfont-newgrand.woff2') format('woff2'),
+		url('iconfont-newgrand.woff') format('woff'),
+		url('iconfont-newgrand.ttf') format('truetype'),
+		url('iconfont-newgrand.svg#iconfont-newgrand') format('svg');
+}
+
+.icon-newgrand:before {
+	font-family: "iconfont-newgrand";
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	/* speak: none; only necessary if not using the private unicode range (firstGlyph option) */
+	text-decoration: none;
+	text-transform: none;
+}
+
+
+.icon-newgrand-contract-fkht:before {
+	content: "\E001";
+}
+
+.icon-newgrand-contract-htbg:before {
+	content: "\E002";
+}
+
+.icon-newgrand-contract-sfkgl:before {
+	content: "\E003";
+}
+
+.icon-newgrand-contract-skht:before {
+	content: "\E004";
+}
+
+.icon-newgrand-budget-dwsp:before {
+	content: "\E005";
+}
+
+.icon-newgrand-budget-jcsz:before {
+	content: "\E006";
+}
+
+.icon-newgrand-budget-spzx:before {
+	content: "\E007";
+}
+
+.icon-newgrand-budget-wysp:before {
+	content: "\E008";
+}
+
+.icon-newgrand-budget-ysbz:before {
+	content: "\E009";
+}
+
+.icon-newgrand-budget-ystz:before {
+	content: "\E00A";
+}
+
+.icon-newgrand-budget-yszx:before {
+	content: "\E00B";
+}
+
+.icon-newgrand-pc-jcsz:before {
+	content: "\E00C";
+}
+
+.icon-newgrand-pc-q:before {
+	content: "\E00D";
+}
+
+.icon-newgrand-pc-spl:before {
+	content: "\E00E";
+}
+
+.icon-newgrand-pc-yhda:before {
+	content: "\E00F";
+}
+
+.icon-newgrand-pc-zfpt:before {
+	content: "\E010";
+}
+
+.icon-newgrand-rc-bbfz:before {
+	content: "\E011";
+}
+
+.icon-newgrand-rc-bbhz:before {
+	content: "\E012";
+}
+
+.icon-newgrand-rc-bbsj:before {
+	content: "\E013";
+}
+
+.icon-newgrand-rc-bbtb:before {
+	content: "\E014";
+}
+
+.icon-newgrand-rc-sy:before {
+	content: "\E015";
+}

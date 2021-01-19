@@ -1,40 +1,66 @@
-import { asyncRouterMap, constantRouterMap } from '@/router'
+import { asyncRouterMap, constantRouterMap, asyncRouterMapWithRoles } from '@/router'
 import permissionUtil from '@/utils/permission'
-/**
- * 递归过滤异步路由表，返回符合用户角色权限的路由表
- * @param routes asyncRouterMap
- * @param roles
- */
-function filterAsyncRouter(routes, roles) {
-  const res = []
-  routes.forEach(route => {
-    const tmp = { ...route }
-    if (permissionUtil.checkPermission(roles, tmp)) {
-      if (tmp.children) {
-        tmp.children = filterAsyncRouter(tmp.children, roles)
-      }
-      res.push(tmp)
-    }
-  })
-  return res
-}
+import router, { resetRouter } from '@/router'
 
 const permission = {
   state: {
     routers: constantRouterMap,
-    addRouters: []
+    addRouters: [],
+    ifAdd: false,
+    menuList: [],
+    hasDefaultRouter: true
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers
       state.routers = constantRouterMap.concat(routers)
+      state.ifAdd = true
+    },
+    SET_MENU_LIST: (state, list) => {
+      state.menuList = list
+    },
+    SET_HAS_DEFAULT: (state, flag) => {
+      state.hasDefaultRouter = flag
     }
   },
   actions: {
-    GenerateRoutes({ commit }, data) {
+    generateRoutes({ commit }, data) {
       return new Promise(resolve => {
         const { roles } = data
-        commit('SET_ROUTERS', filterAsyncRouter(asyncRouterMap, roles))
+        // role
+        const roleRouter = permissionUtil.filterAsyncRouter(asyncRouterMapWithRoles, roles)
+        // 暂时这个逻辑
+        const menuRouter = permissionUtil.filterAsyncRouter(asyncRouterMap, roles)
+        // const menuRouter = []
+        commit('SET_ROUTERS', [...roleRouter, ...menuRouter])
+        resolve()
+      })
+    },
+    // 账本的路由权限
+    generateBudgetRoutes({ commit }, data) {
+      return new Promise(resolve => {
+        const { menus } = data
+        const menuList = []
+        menus.forEach((item) => {
+          if (item.moduleName === '预算') {
+            menuList.push(item.permName)
+          }
+        })
+        const menuRouter = permissionUtil.filterAsyncRouterWithMenu(asyncRouterMap, menuList)
+        const result = [...menuRouter]
+        // 重置
+        resetRouter()
+        // 添加
+        router.addRoutes(result)
+        commit('SET_ROUTERS', result)
+        commit('SET_MENU_LIST', menuList)
+        resolve()
+      })
+    },
+    generateRoutesWithMenu({ commit }, data) {
+      return new Promise(resolve => {
+        const { menu } = data
+        commit('SET_ROUTERS', permissionUtil.filterAsyncRouterWithMenu(asyncRouterMap, menu))
         resolve()
       })
     }

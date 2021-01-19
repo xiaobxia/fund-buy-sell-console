@@ -1,81 +1,63 @@
-import { getToken } from '@/utils/auth'
 import Http from '@/utils/httpUtil'
-import storageUtil from '@/utils/storageUtil'
+import Vue from 'vue'
+import appCommonUtil from '@/utils/appCommonUtil'
 
 const user = {
   state: {
-    user: '',
-    status: '',
-    code: '',
-    token: getToken(),
-    name: '',
-    avatar: '',
-    introduction: '',
-    roles: [],
-    setting: {
-      articlePlatform: []
-    }
+    token: '',
+    userInfo: {}
   },
 
   mutations: {
-    SET_CODE: (state, code) => {
-      state.code = code
-    },
-    SET_TOKEN: (state, token) => {
-      state.token = token
-    },
-    SET_INTRODUCTION: (state, introduction) => {
-      state.introduction = introduction
-    },
-    SET_SETTING: (state, setting) => {
-      state.setting = setting
-    },
-    SET_STATUS: (state, status) => {
-      state.status = status
-    },
-    SET_NAME: (state, name) => {
-      state.name = name
-    },
-    SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar
-    },
-    SET_ROLES: (state, roles) => {
-      state.roles = roles
+    SET_USER_INFO: (state, info) => {
+      state.userInfo = {
+        ...state.userInfo,
+        ...info
+      }
+      appCommonUtil.setLoginInfo(state.userInfo)
+      Vue.prototype.$commonQueryParam = {
+        ...(Vue.prototype.$commonQueryParam || {}),
+        phCreator: info.userName,
+        phCurorgid: '' + info.orgId,
+        phEditorId: '',
+        phEditorName: '',
+        phUserId: '' + info.phid,
+        // 未来将废除的字段
+        // orgId: '' + info.orgId,
+        creator: '' + info.phid
+      }
     }
   },
 
   actions: {
     // 用户名登录
     LoginByUsername({ commit }, userInfo) {
-      const email = userInfo.email.trim()
-      return Http.post('auth/login', {
-        email: email,
-        password: userInfo.password,
-        platform: 'pc'
+      const param = {
+        email: userInfo.username.trim(),
+        password: userInfo.password.trim()
+      }
+      return Http.post('fbsServer/auth/login', {
+        ...param
       }).then((data) => {
-        window._token = data.data.token
-        localStorage.setItem('token', data.data.token)
-        storageUtil.initUserInfo({
-          ...data.data,
-          isLogin: true
-        })
-        return data.data
+        // window._token = data.data
+        // appCommonUtil.setLoginToken(data.data)
+        // return data.data
       })
     },
-
+    getUserInfo({ commit }, noAuth) {
+      return Http.get('ucenterGh/users-info/getUserInfoByToken', {}, { noAuth: !!noAuth }).then((res) => {
+        commit('SET_USER_INFO', res.data)
+        return res.data
+      }).catch((err) => {
+        console.log('err', err)
+      })
+    },
     CheckLogin({ commit }, userInfo) {
     },
-    // 登出
-    LogOut() {
-      return Http.get('auth/logout', {
-        token: localStorage.getItem('token'),
-        platform: 'mobile'
-      }).then(() => {
-        localStorage.removeItem('token')
-        storageUtil.initUserInfo({
-          isLogin: false
-        })
-      })
+    Logout() {
+      Http.post('ucenterGh/users-local-oauth/logout')
+      appCommonUtil.removeLoginAuth()
+      window.location.reload()
     }
   }
 }
