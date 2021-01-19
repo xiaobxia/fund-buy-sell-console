@@ -5,7 +5,7 @@ import appCommonUtil from '@/utils/appCommonUtil'
 const user = {
   state: {
     token: '',
-    userInfo: {}
+    userInfo: appCommonUtil.getLoginInfo()
   },
 
   mutations: {
@@ -39,13 +39,13 @@ const user = {
       return Http.post('fbsServer/auth/login', {
         ...param
       }).then((data) => {
-        // window._token = data.data
-        // appCommonUtil.setLoginToken(data.data)
-        // return data.data
+        window._token = data.data.token
+        appCommonUtil.setLoginToken(data.data.token)
+        return data.data
       })
     },
     getUserInfo({ commit }, noAuth) {
-      return Http.get('ucenterGh/users-info/getUserInfoByToken', {}, { noAuth: !!noAuth }).then((res) => {
+      return Http.get('fbsServer/user/getUserByToken', {}, { noAuth: !!noAuth }).then((res) => {
         commit('SET_USER_INFO', res.data)
         return res.data
       }).catch((err) => {

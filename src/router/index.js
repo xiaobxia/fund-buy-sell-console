@@ -54,34 +54,10 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '/entryContract',
-    component: () => import('@/views/entry/contract'),
-    hidden: true,
-    meta: {
-      auth: false
-    }
-  },
-  {
-    path: '/entryAsset',
-    component: () => import('@/views/entry/asset'),
-    hidden: true,
-    meta: {
-      auth: false
-    }
-  },
-  {
-    path: '/entryAssetsManage',
-    component: () => import('@/views/entry/assetsManage'),
-    hidden: true,
-    meta: {
-      auth: false
-    }
-  },
-  {
     path: '',
     component: Layout,
     // 可以被重设
-    redirect: '/bankDoc/index'
+    redirect: '/userList/index'
   }
 ]
 
@@ -89,6 +65,20 @@ export const asyncRouterMapWithRoles = [
 ]
 
 export const asyncRouterMap = [
+  {
+    path: `/userList`,
+    name: '下级银行档案',
+    meta: { title: '下级银行档案', icon: 'icon-newgrand icon-newgrand-pc-yhda' },
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '下级银行档案-1',
+        component: () => import('@/views/payPlatform/index.vue'),
+        meta: { title: '下级银行档案' }
+      }
+    ]
+  },
   {
     path: `/bankDoc`,
     name: '下级银行档案',

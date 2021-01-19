@@ -76,17 +76,6 @@
         </el-row>
       </el-form>
     </div>
-    <div class="filter-container">
-      <div class="left-block">
-        <el-button type="primary" size="small" @click="payInfoC">收付款信息维护</el-button>
-        <el-button :loading="mergePayLoading" type="primary" size="small" @click="openMergePay">合并支付</el-button>
-        <el-button type="primary" size="small" @click="openErrorHandler">异常处理</el-button>
-        <el-button type="primary" size="small" @click="batchSubmit">批量送审</el-button>
-        <el-button type="primary" size="small" @click="cancelSubmit">取消送审</el-button>
-        <el-button type="primary" size="small" @click="multipleDeleteHandler">删除</el-button>
-        <el-button type="primary" size="small">导出数据</el-button>
-      </div>
-    </div>
     <el-table
       ref="multipleTable"
       :border="true"
@@ -110,110 +99,62 @@
       </el-table-column>
       <el-table-column
         align="center"
-        min-width="200"
-        label="支付单编号">
-        <template slot-scope="scope">
-          <el-button type="text" @click="openView(scope.row)">{{ scope.row.payNo }}</el-button>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="right"
         min-width="150"
-        label="应付金额（元）">
+        label="邮箱">
         <template slot-scope="scope">
-          <span>{{ $formatMoney(scope.row.amountPayable) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="right"
-        min-width="150"
-        label="实付金额（元）">
-        <template slot-scope="scope">
-          <span>{{ $formatMoney(scope.row.actuallyPayable) }}</span>
+          <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
       <el-table-column
         align="center"
-        min-width="150"
-        label="单据类型">
+        min-width="100"
+        label="激活状态">
         <template slot-scope="scope">
-          <span>{{ $formatDocType(scope.row.documentType) }}</span>
+          <el-tag v-if="scope.row.email_active" type="success">激活</el-tag>
+          <el-tag v-else type="danger">未激活</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
+        min-width="100"
+        label="vip天数">
+        <template slot-scope="scope">
+          <span>{{ scope.row.vip_days }}</span>
         </template>
       </el-table-column>
       <el-table-column
         align="center"
         min-width="200"
-        label="申报单编号">
+        label="激活码">
         <template slot-scope="scope">
-          <span>{{ scope.row.declarationNo }}</span>
+          <span>{{ scope.row.email_code }}</span>
         </template>
       </el-table-column>
       <el-table-column
         align="center"
         min-width="150"
-        label="申报单名称">
+        label="邀请人">
         <template slot-scope="scope">
-          <span>{{ scope.row.declarationName }}</span>
+          <span>{{ scope.row.inviter_email }}</span>
         </template>
       </el-table-column>
       <el-table-column
         align="center"
-        min-width="150"
-        label="申报日期">
+        min-width="100"
+        label="密码">
         <template slot-scope="scope">
-          <span>{{ scope.row.declarationDt }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="center"
-        min-width="150"
-        label="审批状态">
-        <template slot-scope="scope">
-          <el-button v-if="scope.row.approvalId" type="text" @click="openApprovalDetail(scope.row)">{{ $formatSPVStatus(scope.row.approveStatus) }}</el-button>
-          <div v-else>{{ $formatSPVStatus(scope.row.approveStatus) }}</div>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="center"
-        min-width="150"
-        label="支付状态">
-        <template slot-scope="scope">
-          <span>{{ $formatPayCenterPayStatus(scope.row.payStatus) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="center"
-        min-width="150"
-        label="支付方式">
-        <template slot-scope="scope">
-          <span>网银</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="center"
-        min-width="150"
-        label="支付日期">
-        <template slot-scope="scope">
-          <span>{{ scope.row.payTime }}</span>
+          <span>{{ scope.row.password }}</span>
         </template>
       </el-table-column>
     </el-table>
     <div style="margin-top: 10px;text-align: right">
       <pagination :page="current" :limit="size" :total="total" @pagination="paginationChange"/>
     </div>
-    <error-handler ref="errorHandler"/>
-    <merge-pay ref="mergePay" @ok="queryList"/>
-    <pay-view ref="payView" @ok="queryList"/>
-    <approval-detail-notify ref="approvalDetailNotify"/>
   </el-card>
 </template>
 
 <script>
 import Pagination from '@/components/Pagination'
-import ErrorHandler from './components/errorHandler'
-import MergePay from './components/mergePay'
-import PayView from './components/payView'
-import ApprovalDetailNotify from '@/businessComponents/ApprovalDetailNotify'
 
 function createSearchForm(tar) {
   let raw = {
@@ -236,11 +177,7 @@ function createSearchForm(tar) {
 export default {
   name: 'PayPlatform',
   components: {
-    Pagination,
-    ErrorHandler,
-    MergePay,
-    PayView,
-    ApprovalDetailNotify
+    Pagination
   },
   data() {
     return {
@@ -263,15 +200,6 @@ export default {
   },
   created() {
     this.reQueryList()
-    this.$store.dispatch('getOrgBankList', {
-      orgId: this.$commonQueryParam.orgId
-    })
-    this.$store.dispatch('getBudgetSub', {
-      year: this.$commonQueryParam.year
-    })
-    // setTimeout(() => {
-    //   this.$refs.payView.open()
-    // })
   },
   methods: {
     handleSelectionChange(val) {
@@ -292,19 +220,13 @@ export default {
     },
     queryList() {
       this.tableLoading = true
-      this.$http.post('pcenterGh/payment/findByCondition', {
-        ...this.searchForm,
-        index: this.current,
-        size: this.size,
-        orgId: this.$commonQueryParam.orgId,
-        'declareEndDt': this.searchForm.declareEndDt ? (this.searchForm.declareEndDt + ' 23:59:59') : '',
-        'declareStartDt': this.searchForm.declareStartDt ? (this.searchForm.declareStartDt + ' 00:00:01') : '',
-        'payEndDt': this.searchForm.payEndDt ? (this.searchForm.payEndDt + ' 23:59:59') : '',
-        'payStartDt': this.searchForm.payStartDt ? (this.searchForm.payStartDt + ' 00:00:01') : ''
+      this.$http.get('fbsServer/user/getRecords', {
+        current: this.current,
+        pageSize: this.size
       }).then((res) => {
         const data = res.data || {}
-        this.total = parseInt(data.total || 0) || 0
-        this.tableData = data.records || []
+        this.total = parseInt(data.count || 0) || 0
+        this.tableData = data.list || []
         this.tableLoading = false
       }).catch(() => {
         this.tableLoading = false

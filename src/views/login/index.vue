@@ -86,9 +86,8 @@ export default {
           this.loading = true
           this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
             return this.$store.dispatch('getUserInfo').then((res) => {
-              this.$store.dispatch('setOrgInfo', { ...res.orgInfo, source: 'layout' })
               this.$router.push({
-                path: '/home',
+                path: '/userList/index',
                 query: this.otherQuery
               })
               this.loading = false

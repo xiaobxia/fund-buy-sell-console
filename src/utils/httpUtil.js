@@ -28,10 +28,9 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   function(response) {
-    if (response.data.status === false) {
+    if (response.data.success === false) {
       if (
-        response.data.code === 400 &&
-        response.data.message === '用户未登录'
+        response.data.code === 401
       ) {
         // 未登录
         // 有些接口可以不拦截

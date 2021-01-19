@@ -13,6 +13,9 @@ export default {
   setLoginInfo(userInfo) {
     storageUtil.setData('userInfo', userInfo)
   },
+  getLoginInfo() {
+    return storageUtil.getData('userInfo') || {}
+  },
   // 退出登录，为应对不同平台抽象
   removeLoginAuth() {
     authUtil.removeToken()
