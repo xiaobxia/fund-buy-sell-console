@@ -67,43 +67,35 @@ export const asyncRouterMapWithRoles = [
 export const asyncRouterMap = [
   {
     path: `/userList`,
-    name: '下级银行档案',
-    meta: { title: '下级银行档案', icon: 'icon-newgrand icon-newgrand-pc-yhda' },
+    name: '用户列表',
+    meta: { title: '用户列表', icon: 'el-icon-user' },
     component: Layout,
     children: [
       {
         path: 'index',
-        name: '下级银行档案-1',
-        component: () => import('@/views/payPlatform/index.vue'),
-        meta: { title: '下级银行档案' }
+        name: '用户列表-1',
+        component: () => import('@/views/userList/index.vue'),
+        meta: { title: '用户列表' }
       }
     ]
   },
   {
-    path: `/bankDoc`,
-    name: '下级银行档案',
-    meta: { title: '下级银行档案', icon: 'icon-newgrand icon-newgrand-pc-yhda' },
+    path: `/log`,
+    name: '日志记录',
+    meta: { title: '日志记录', icon: 'el-icon-printer' },
     component: Layout,
     children: [
       {
-        path: 'index',
-        name: '下级银行档案-1',
-        component: () => import('@/views/bankDoc/index.vue'),
-        meta: { title: '下级银行档案' }
-      }
-    ]
-  },
-  {
-    path: `/payPlatform`,
-    name: '支付平台',
-    meta: { title: '支付平台', icon: 'icon-newgrand icon-newgrand-pc-zfpt' },
-    component: Layout,
-    children: [
+        path: 'emailSendLog',
+        name: '邮件记录-1',
+        component: () => import('@/views/log/emailSendLog.vue'),
+        meta: { title: '邮件记录' }
+      },
       {
-        path: 'index',
-        name: '支付平台-1',
-        component: () => import('@/views/payPlatform/index.vue'),
-        meta: { title: '支付平台' }
+        path: 'invitationLog',
+        name: '邀请记录-1',
+        component: () => import('@/views/log/invitationLog.vue'),
+        meta: { title: '邀请记录' }
       }
     ]
   },
