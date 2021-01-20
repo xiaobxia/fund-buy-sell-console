@@ -3,74 +3,25 @@
     <div>
       <el-form ref="form" :model="searchForm" label-width="70px" size="small">
         <el-row :gutter="10">
-          <el-col :span="6">
-            <el-form-item label="单据类型" prop="type">
-              <el-select v-model="searchForm.type" size="small" style="width: 100%" placeholder="请选择">
+          <el-col :span="5">
+            <el-form-item label="类型" label-width="50px" prop="typeName">
+              <el-select v-model="searchForm.typeName" size="small" style="width: 100%" placeholder="请选择">
                 <el-option label="全部" value="" />
-                <el-option
-                  v-for="item in $DOC_TYPE"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+                <el-option value="注册" label="注册"/>
+                <el-option value="激活" label="激活"/>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="支付状态" prop="status">
-              <el-select v-model="searchForm.status" size="small" style="width: 100%" placeholder="请选择">
-                <el-option label="全部" value="" />
-                <el-option
-                  v-for="item in $PAY_CENTER_PAY_STATUS"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
+          <el-col :span="4">
             <el-input
-              v-model="searchForm.no"
+              v-model="searchForm.search"
               style="width: 100%"
               class="enter-item"
-              placeholder="支付单号/申报单号"
+              placeholder="请输入邀请人"
               size="small"
             />
           </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="6">
-            <el-form-item label="申报日期" prop="date">
-              <el-date-picker
-                v-model="searchForm.date"
-                style="width: 100%"
-                size="small"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                value-format="yyyy-MM-dd"
-                end-placeholder="结束日期"
-                @change="()=>{$setDateRange(searchForm, 'date', 'declareStartDt', 'declareEndDt')}"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="支付日期" prop="payDate">
-              <el-date-picker
-                v-model="searchForm.payDate"
-                style="width: 100%"
-                size="small"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                value-format="yyyy-MM-dd"
-                end-placeholder="结束日期"
-                @change="()=>{$setDateRange(searchForm, 'payDate', 'payStartDt', 'payEndDt')}"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
+          <el-col :span="4">
             <el-button size="small" type="primary" @click="reQueryList">查询</el-button>
           </el-col>
         </el-row>
@@ -92,34 +43,17 @@
       <el-table-column
         align="center"
         min-width="150"
-        label="邮箱">
+        label="类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.email }}</span>
+          <span>{{ scope.row.type_name }}</span>
         </template>
       </el-table-column>
       <el-table-column
         align="center"
-        min-width="100"
-        label="激活状态">
+        min-width="150"
+        label="用户">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.email_active" type="success">激活</el-tag>
-          <el-tag v-else type="danger">未激活</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="center"
-        min-width="100"
-        label="vip天数">
-        <template slot-scope="scope">
-          <span>{{ scope.row.vip_days }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="center"
-        min-width="200"
-        label="激活码">
-        <template slot-scope="scope">
-          <span>{{ scope.row.email_code }}</span>
+          <span>{{ scope.row.register_email }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -128,14 +62,6 @@
         label="邀请人">
         <template slot-scope="scope">
           <span>{{ scope.row.inviter_email }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="center"
-        min-width="100"
-        label="密码">
-        <template slot-scope="scope">
-          <span>{{ scope.row.password }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -150,15 +76,8 @@ import Pagination from '@/components/Pagination'
 
 function createSearchForm(tar) {
   let raw = {
-    'declareEndDt': '',
-    'declareStartDt': '',
-    'index': '',
-    'no': '',
-    'payEndDt': '',
-    'payStartDt': '',
-    'size': '',
-    'status': 1,
-    'type': ''
+    'typeName': '',
+    'search': ''
   }
   if (tar) {
     raw = Object.assign(raw, tar)
@@ -202,9 +121,10 @@ export default {
     },
     queryList() {
       this.tableLoading = true
-      this.$http.get('fbsServer/user/getRecords', {
+      this.$http.get('fbsServer/log/invitationLogGetRecords', {
         current: this.current,
-        pageSize: this.size
+        pageSize: this.size,
+        ...this.searchForm
       }).then((res) => {
         const data = res.data || {}
         this.total = parseInt(data.count || 0) || 0

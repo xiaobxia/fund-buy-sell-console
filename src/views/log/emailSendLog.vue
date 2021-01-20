@@ -34,7 +34,7 @@
       :header-cell-style="{textAlign: 'center'}"
       tooltip-effect="dark"
       style="width: 100%"
-      height="calc(100vh - 310px)"
+      height="calc(100vh - 220px)"
       @selection-change="handleSelectionChange">
       <el-table-column
         type="selection"
