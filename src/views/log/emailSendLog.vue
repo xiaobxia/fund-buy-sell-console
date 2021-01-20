@@ -64,6 +64,14 @@
           <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
+      <el-table-column
+        align="center"
+        min-width="150"
+        label="时间">
+        <template slot-scope="scope">
+          <span>{{ $formatToDateTime(scope.row.create_at) }}</span>
+        </template>
+      </el-table-column>
     </el-table>
     <div style="margin-top: 10px;text-align: right">
       <pagination :page="current" :limit="size" :total="total" @pagination="paginationChange"/>

@@ -34,7 +34,7 @@
       :header-cell-style="{textAlign: 'center'}"
       tooltip-effect="dark"
       style="width: 100%"
-      height="calc(100vh - 310px)"
+      height="calc(100vh - 220px)"
       @selection-change="handleSelectionChange">
       <el-table-column
         type="selection"
@@ -62,6 +62,14 @@
         label="邀请人">
         <template slot-scope="scope">
           <span>{{ scope.row.inviter_email }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
+        min-width="150"
+        label="时间">
+        <template slot-scope="scope">
+          <span>{{ $formatToDateTime(scope.row.create_at) }}</span>
         </template>
       </el-table-column>
     </el-table>

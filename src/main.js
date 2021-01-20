@@ -102,6 +102,10 @@ Vue.prototype.$formatToDay = function(day) {
   return moment(day).format('YYYY-MM-DD')
 }
 
+Vue.prototype.$formatToDateTime = function(time) {
+  return moment(time).format('YYYY-MM-DD HH:mm:ss')
+}
+
 Vue.prototype.$getDiffHour = function(checkBeginTime) {
   return moment().diff(checkBeginTime, 'hours')
 }

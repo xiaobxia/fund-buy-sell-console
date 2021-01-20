@@ -21,7 +21,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="申报日期" prop="date">
               <el-date-picker
                 v-model="searchForm.date"
@@ -45,7 +45,7 @@
               size="small"
             />
           </el-col>
-          <el-col :span="4">
+          <el-col :span="2">
             <el-button size="small" type="primary" @click="reQueryList">查询</el-button>
           </el-col>
         </el-row>
@@ -111,6 +111,14 @@
         label="密码">
         <template slot-scope="scope">
           <span>{{ scope.row.password }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
+        min-width="150"
+        label="注册时间">
+        <template slot-scope="scope">
+          <span>{{ $formatToDateTime(scope.row.create_at) }}</span>
         </template>
       </el-table-column>
       <el-table-column
