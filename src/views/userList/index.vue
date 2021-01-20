@@ -63,15 +63,7 @@
       <el-table-column
         type="selection"
         align="center"
-        width="55">
-        <div slot="header">
-          <el-button
-            size="small"
-            type="text"
-            icon="el-icon-edit"
-          />
-        </div>
-      </el-table-column>
+        width="55"/>
       <el-table-column
         align="center"
         min-width="150"
