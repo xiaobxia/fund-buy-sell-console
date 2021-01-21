@@ -108,4 +108,7 @@ export default {
   .c-i {
     width: 500px;
   }
+  #i-r-p {
+    width: 500px;
+  }
 </style>
