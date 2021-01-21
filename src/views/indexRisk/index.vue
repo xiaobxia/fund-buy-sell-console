@@ -9,10 +9,10 @@
       </div>
       <div id="i-r-p">
         <div class="clearfix">
-          <div v-for="item in list" :key="item" :style="getBg(item)" class="ety">1</div>
+          <div v-for="item in list" :key="item.key" :style="getBg(item.color)" class="ety">{{ item.name }}</div>
         </div>
         <div class="clearfix">
-          <div v-for="item in listGreen" :key="item" :style="getBg(item)" class="ety">1</div>
+          <div v-for="item in listGreen" :key="item.key" :style="getBg(item.color)" class="ety">{{ item.name }}</div>
         </div>
       </div>
     </div>
@@ -35,17 +35,7 @@ export default {
   computed: {
   },
   created() {
-    const list = []
-    for (let i = 1; i < 100; i++) {
-      list.push(themeUtil.tintColor('F56C6C', Number((i / 100).toFixed(2))))
-    }
-    this.list = list
-    const listGreen = []
-    for (let i = 1; i < 100; i++) {
-      listGreen.push(themeUtil.tintColor('67C23A', Number((i / 100).toFixed(2))))
-    }
-    this.listGreen = listGreen
-    this.reQueryList()
+    this.queryList()
   },
   methods: {
     getBg(item) {
@@ -70,6 +60,33 @@ export default {
       this.queryList()
     },
     queryList() {
+      this.$http.get('fbsServer/riskSignal/getLastSignal').then((res) => {
+        const data = res.data
+        const record = data.record || []
+        const list = []
+        const listGreen = []
+        record.forEach((v) => {
+          let r = (Math.abs(v.netChangeRatio) * 3) + 10
+          if (r > 90) {
+            r = 90
+          }
+          if (r < 10) {
+            r = 10
+          }
+          r = 100 - r
+          // 越大越淡
+          if (v.netChangeRatio > 0) {
+            v.color = themeUtil.tintColor('F56C6C', Number((r / 100).toFixed(2)))
+            list.push(v)
+          } else {
+            v.color = themeUtil.tintColor('67C23A', Number((r / 100).toFixed(2)))
+            listGreen.push(v)
+          }
+        })
+        listGreen.reverse()
+        this.list = list
+        this.listGreen = listGreen
+      })
     }
   }
 }
