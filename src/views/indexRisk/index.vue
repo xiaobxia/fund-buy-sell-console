@@ -8,8 +8,14 @@
         <img :src="imgUrl" alt="" class="c-i">
       </div>
       <div id="i-r-p">
+        <div style="margin-bottom: 10px;">
+          <span class="t-t">安全区</span>
+        </div>
         <div class="clearfix">
           <div v-for="item in list" :key="item.key" :style="getBg(item.color)" class="ety">{{ item.name }}</div>
+        </div>
+        <div style="margin: 10px 0;">
+          <span class="t-t">风控区</span>
         </div>
         <div class="clearfix">
           <div v-for="item in listGreen" :key="item.key" :style="getBg(item.color)" class="ety">{{ item.name }}</div>
@@ -43,7 +49,6 @@ export default {
     },
     printHandler() {
       this.$createImageUrl('i-r-p').then((url) => {
-        console.log(url)
         this.imgUrl = url
       })
     },
@@ -110,5 +115,8 @@ export default {
   }
   #i-r-p {
     width: 500px;
+  }
+  .t-t {
+    font-size: 22px;
   }
 </style>
