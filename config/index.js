@@ -70,9 +70,9 @@ module.exports = {
     // 一个端口部署多个vue项目，assetsPublicPath: "/项目名/"
     // nginx: location /项目名 {}
     assetsPathInCss: '../../',
-    assetsPublicPath: '/paycenterWeb/',
-    cdnPublicPath: 'http://bkt.clouddn.com/',
-    ifCdn: false,
+    assetsPublicPath: './',
+    cdnPublicPath: 'http://funduseconsolecdn.xiaobxia.com/',
+    ifCdn: true,
 
     /**
      * Source Maps
