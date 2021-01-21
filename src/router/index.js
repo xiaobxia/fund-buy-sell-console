@@ -99,6 +99,20 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: `/indexRisk`,
+    name: '指数风险',
+    meta: { title: '指数风险', icon: 'el-icon-light-rain' },
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '指数风险-1',
+        component: () => import('@/views/indexRisk/index.vue'),
+        meta: { title: '指数风险' }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

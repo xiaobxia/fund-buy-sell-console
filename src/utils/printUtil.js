@@ -62,5 +62,10 @@ export default {
     }).catch(() => {
       document.getElementsByTagName('html')[0].classList.remove('printing')
     })
+  },
+  createImageUrl(cid) {
+    return domImage.convertToImage(
+      document.getElementById(cid)
+    )
   }
 }
