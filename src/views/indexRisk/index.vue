@@ -79,8 +79,9 @@ export default {
             r = 10
           }
           r = 100 - r
+          v.r = r
           // 越大越淡
-          if (v.netChangeRatio > 0) {
+          if (v.netChangeRatio > 0 && !v.stockIndexPSF) {
             v.color = themeUtil.tintColor('F56C6C', Number((r / 100).toFixed(2)))
             list.push(v)
           } else {
@@ -88,7 +89,12 @@ export default {
             listGreen.push(v)
           }
         })
-        listGreen.reverse()
+        list.sort((a, b) => {
+          return a.r - b.r
+        })
+        listGreen.sort((a, b) => {
+          return a.r - b.r
+        })
         this.list = list
         this.listGreen = listGreen
       })
