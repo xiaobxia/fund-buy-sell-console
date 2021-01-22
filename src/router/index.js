@@ -96,6 +96,12 @@ export const asyncRouterMap = [
         name: '邀请记录-1',
         component: () => import('@/views/log/invitationLog.vue'),
         meta: { title: '邀请记录' }
+      },
+      {
+        path: 'feedback',
+        name: '意见反馈-1',
+        component: () => import('@/views/log/feedback.vue'),
+        meta: { title: '意见反馈' }
       }
     ]
   },
