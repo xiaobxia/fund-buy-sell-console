@@ -80,6 +80,20 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: `/sysSetting`,
+    name: '系统控制',
+    meta: { title: '系统控制', icon: 'el-icon-set-up' },
+    component: Layout,
+    children: [
+      {
+        path: 'schedule',
+        name: '定时任务-1',
+        component: () => import('@/views/sysSetting/schedule.vue'),
+        meta: { title: '定时任务' }
+      }
+    ]
+  },
+  {
     path: `/log`,
     name: '日志记录',
     meta: { title: '日志记录', icon: 'el-icon-printer' },

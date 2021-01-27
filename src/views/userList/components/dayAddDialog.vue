@@ -42,7 +42,7 @@ export default {
           { required: true, message: '必填', trigger: 'change' }
         ]
       },
-      dayList: [20, 60, 120, 240],
+      dayList: [1, 20, 60, 120, 240],
       email: ''
     }
   },
@@ -60,7 +60,7 @@ export default {
         if (valid) {
           this.$http.post('fbsServer/user/addUserVipDays', {
             // 多送一天
-            days: this.form.days + 1,
+            days: this.form.days,
             email: this.email
           }).then(() => {
             this.$message({
