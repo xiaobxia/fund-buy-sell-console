@@ -10,7 +10,7 @@
       <div id="i-r-p">
         <div
           style="text-align: center;margin-bottom: 10px;font-size: 22px"
-        >{{ tradeDate }}指数风险分布</div>
+        >指数风险分布({{ tradeDate }})</div>
         <div style="margin-bottom: 10px;">
           <span class="t-t">安全区</span>
         </div>
