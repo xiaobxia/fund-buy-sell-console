@@ -8,6 +8,9 @@
         <img :src="imgUrl" alt="" class="c-i">
       </div>
       <div id="i-r-p">
+        <div
+          style="text-align: center;margin-bottom: 10px;font-size: 22px"
+        >{{ tradeDate }}指数风险分布</div>
         <div style="margin-bottom: 10px;">
           <span class="t-t">安全区</span>
         </div>
@@ -35,7 +38,8 @@ export default {
     return {
       list: [],
       listGreen: [],
-      imgUrl: ''
+      imgUrl: '',
+      tradeDate: ''
     }
   },
   computed: {
@@ -97,6 +101,7 @@ export default {
         })
         this.list = list
         this.listGreen = listGreen
+        this.tradeDate = data.trade_date
       })
     }
   }
