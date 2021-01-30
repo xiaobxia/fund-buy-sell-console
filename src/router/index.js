@@ -94,6 +94,20 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: `/infoFlow`,
+    name: '信息流',
+    meta: { title: '信息流', icon: 'el-icon-chat-dot-square' },
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '信息流-1',
+        component: () => import('@/views/infoFlow/index.vue'),
+        meta: { title: '信息流' }
+      }
+    ]
+  },
+  {
     path: `/log`,
     name: '日志记录',
     meta: { title: '日志记录', icon: 'el-icon-printer' },
@@ -116,6 +130,12 @@ export const asyncRouterMap = [
         name: '意见反馈-1',
         component: () => import('@/views/log/feedback.vue'),
         meta: { title: '意见反馈' }
+      },
+      {
+        path: 'payCode',
+        name: '支付码-1',
+        component: () => import('@/views/log/payCodeLog.vue'),
+        meta: { title: '支付码' }
       }
     ]
   },

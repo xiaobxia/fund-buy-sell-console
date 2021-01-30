@@ -30,7 +30,7 @@ const app = {
       } else {
         storageUtil.setData('appConfig', 'sidebarStatus', 0)
       }
-      state.sidebar.opened = false
+      state.sidebar.opened = value
       state.sidebar.withoutAnimation = false
     },
     CLOSE_SIDEBAR: (state, withoutAnimation) => {
