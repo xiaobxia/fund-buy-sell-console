@@ -15,13 +15,19 @@
           <span class="t-t">安全区</span>
         </div>
         <div class="clearfix">
-          <div v-for="item in list" :key="item.key" :style="getBg(item.color)" class="ety">{{ item.name }}</div>
+          <div v-for="item in list" :key="item.key" :style="getBg(item.color)" class="ety">
+            <div>{{ item.name }}</div>
+            <div class="n-t">{{ item.netChangeRatio }}</div>
+          </div>
         </div>
         <div style="margin: 10px 0;">
           <span class="t-t">风控区</span>
         </div>
         <div class="clearfix">
-          <div v-for="item in listGreen" :key="item.key" :style="getBg(item.color)" class="ety">{{ item.name }}</div>
+          <div v-for="item in listGreen" :key="item.key" :style="getBg(item.color)" class="ety">
+            <div>{{ item.name }}</div>
+            <div class="n-t">{{ item.netChangeRatio }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -97,7 +103,7 @@ export default {
           return a.r - b.r
         })
         listGreen.sort((a, b) => {
-          return a.r - b.r
+          return b.r - a.r
         })
         this.list = list
         this.listGreen = listGreen
@@ -114,8 +120,11 @@ export default {
     height: 50px;
     float: left;
     text-align: center;
-    line-height: 50px;
     color: #303133;
+    padding: 6px 0;
+  }
+  .n-t {
+    margin-top: 6px;
   }
   .p-e {
     height: calc(100vh - 170px);
