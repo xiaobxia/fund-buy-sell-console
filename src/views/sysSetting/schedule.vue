@@ -39,7 +39,8 @@ export default {
       tableData: [
         { name: '验证开盘', url: 'schedule/verifyMarketOpening' },
         { name: '扣减vip天数', url: 'schedule/deleteVipDays' },
-        { name: '更新公众号token', url: 'schedule/getGzhToken' }
+        { name: '更新公众号token', url: 'schedule/getGzhToken' },
+        { name: '更新指数涨跌幅', url: 'schedule/updateIndexRate' }
       ],
       tableLoading: false
     }
