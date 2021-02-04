@@ -59,7 +59,6 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.$http.post('fbsServer/user/addUserVipDays', {
-            // 多送一天
             days: this.form.days,
             email: this.email
           }).then(() => {
