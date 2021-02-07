@@ -10,7 +10,7 @@
       <div id="i-r-p">
         <div
           style="text-align: center;margin-bottom: 10px;font-size: 22px"
-        >指数风险分布({{ tradeDate }})</div>
+        >信号汇总({{ tradeDate }})</div>
         <div style="margin-bottom: 10px;">
           <span class="t-t">指数安全区</span>
           <span>(指数名称+安全系数)</span>
@@ -144,19 +144,20 @@ export default {
     overflow-y: auto;
   }
   .c-i {
-    width: 500px;
+    width: 520px;
   }
   #i-r-p {
-    width: 500px;
+    padding: 20px 10px 0 10px;
+    width: 520px;
   }
   .t-t {
     font-size: 22px;
   }
   .g-q {
     width: 100%;
-    text-align: center;
+    text-align: right;
     img {
-      width: 100%;
+      width: 330px;
     }
   }
 </style>
