@@ -16,7 +16,7 @@
         </div>
         <div class="clearfix">
           <div v-for="item in list" :key="item.key" :style="getBg(item.color)" class="ety">
-            <div>{{ item.name }}</div>
+            <span>{{ nameMap[item.name] }}</span>
             <div class="n-t">{{ item.netChangeRatio }}</div>
           </div>
         </div>
@@ -25,7 +25,7 @@
         </div>
         <div class="clearfix">
           <div v-for="item in listGreen" :key="item.key" :style="getBg(item.color)" class="ety">
-            <div>{{ item.name }}</div>
+            <div>{{ nameMap[item.name] }}</div>
             <div class="n-t">{{ item.netChangeRatio }}</div>
           </div>
         </div>
@@ -36,6 +36,13 @@
 
 <script>
 import themeUtil from '@/utils/themeUtil.js'
+import indexList from '@/common/indexList'
+
+const nameMap = {}
+indexList.forEach((v) => {
+  nameMap[v.name] = v.realName || v.name
+})
+
 export default {
   name: 'IndexRisk',
   components: {
@@ -45,7 +52,8 @@ export default {
       list: [],
       listGreen: [],
       imgUrl: '',
-      tradeDate: ''
+      tradeDate: '',
+      nameMap
     }
   },
   computed: {
