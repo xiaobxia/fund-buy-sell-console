@@ -12,7 +12,8 @@
           style="text-align: center;margin-bottom: 10px;font-size: 22px"
         >指数风险分布({{ tradeDate }})</div>
         <div style="margin-bottom: 10px;">
-          <span class="t-t">安全区</span>
+          <span class="t-t">指数安全区</span>
+          <span>(指数名称+安全系数)</span>
         </div>
         <div class="clearfix">
           <div v-for="item in list" :key="item.key" :style="getBg(item.color)" class="ety">
@@ -21,13 +22,17 @@
           </div>
         </div>
         <div style="margin: 10px 0;">
-          <span class="t-t">风控区</span>
+          <span class="t-t">指数风控区</span>
+          <span>(指数名称+风险系数)</span>
         </div>
         <div class="clearfix">
           <div v-for="item in listGreen" :key="item.key" :style="getBg(item.color)" class="ety">
             <div>{{ nameMap[item.name] }}</div>
             <div class="n-t">{{ item.netChangeRatio }}</div>
           </div>
+        </div>
+        <div class="g-q">
+          <img src="../../assets/gzhQr.png" alt="">
         </div>
       </div>
     </div>
@@ -146,5 +151,12 @@ export default {
   }
   .t-t {
     font-size: 22px;
+  }
+  .g-q {
+    width: 100%;
+    text-align: center;
+    img {
+      width: 100%;
+    }
   }
 </style>

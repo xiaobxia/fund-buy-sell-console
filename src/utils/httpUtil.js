@@ -10,7 +10,7 @@ import setting from '@/setting'
 let basePath = '/'
 // 默认连接地址，只在调试时有用
 if (process.env.NODE_ENV === 'development') {
-  basePath = `/${urlUtil.getQueryStringArgs('pt') || 'local'}/`
+  basePath = `/${urlUtil.getQueryStringArgs('pt') || 'online'}/`
 }
 
 axios.interceptors.request.use(
