@@ -201,6 +201,13 @@ Vue.prototype.$getResMoney = function(a, b) {
   return getMoney(a) - getMoney(b)
 }
 
+Vue.prototype.$stockNumberClass = function(number) {
+  if (!number) {
+    return ''
+  }
+  return number < 0 ? 'green-text' : 'red-text'
+}
+
 // 全局数据
 window.$nowYear = new Date().getFullYear()
 

@@ -324,10 +324,20 @@ body {
 }
 
 .red-text {
-  color: rgb(229, 48, 45) !important;
+  color: rgb(244, 51, 60) !important;
   .el-input__inner {
-    color: rgb(229, 48, 45) !important;
+    color: rgb(244, 51, 60) !important;
   }
+}
+.green-text {
+  color: rgb(62, 179, 121) !important;
+}
+
+.red-bg {
+  background-color: rgb(244, 51, 60) !important;
+}
+.green-bg {
+  background-color: rgb(62, 179, 121) !important;
 }
 
 .app-modal {
