@@ -91,14 +91,6 @@
       </el-table-column>
       <el-table-column
         align="center"
-        min-width="200"
-        label="激活码">
-        <template slot-scope="scope">
-          <span>{{ scope.row.email_code }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="center"
         min-width="150"
         label="邀请人">
         <template slot-scope="scope">
@@ -111,6 +103,14 @@
         label="密码">
         <template slot-scope="scope">
           <span>{{ scope.row.password }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
+        min-width="150"
+        label="活跃时间">
+        <template slot-scope="scope">
+          <span>{{ scope.row.active_date }}</span>
         </template>
       </el-table-column>
       <el-table-column
