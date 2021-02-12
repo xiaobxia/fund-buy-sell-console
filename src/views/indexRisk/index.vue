@@ -12,7 +12,7 @@
           style="text-align: left;margin-bottom: 10px;font-size: 22px"
         >
           <span>信号汇总({{ tradeDate }})</span>
-          <span style="float: right">仓位：{{ position }}</span>
+          <span style="float: right">仓位标准：{{ position }}</span>
         </div>
         <!--<div style="margin-bottom: 10px;">-->
         <!--<span class="t-t">指数安全区</span>-->
@@ -68,7 +68,13 @@
           </tbody>
         </table>
         <div class="g-q">
-          <img src="../../assets/gzhQr.png" alt="">
+          <div class="w-t">
+            <div class="disclaimer">
+              <p style="margin-top: 10px">【养基定投波段】提供的任何信息或意见仅供参考，并不构成任何人的投资建议。投资者不得直接据此作出买入或卖出判断，否则自行承担投资风险。</p>
+              <p>温馨提示:基金有风险，投资需谨慎。</p>
+            </div>
+          </div>
+          <img src="../../assets/gzhQrb.png" alt="">
         </div>
       </div>
     </div>
@@ -274,7 +280,7 @@ export default {
     width: 520px;
   }
   #i-r-p {
-    padding: 20px 10px 0 10px;
+    padding: 20px 10px 20px 10px;
     width: 520px;
   }
   .t-t {
@@ -282,9 +288,22 @@ export default {
   }
   .g-q {
     width: 100%;
-    text-align: right;
+    position: relative;
     img {
-      width: 330px;
+      position: absolute;
+      right: -14px;
+      display: block;
+      width: 256px;
+      top: 0;
+    }
+    .w-t {
+      display: inline-block;
+      width: 260px;
+      vertical-align: top;
+      font-size: 10px;
+      p {
+        margin: 0;
+      }
     }
   }
   .print-table {
