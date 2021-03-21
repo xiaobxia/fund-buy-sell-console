@@ -11,7 +11,7 @@
         <div
           style="text-align: left;margin-bottom: 10px;font-size: 22px"
         >
-          <span>信号汇总({{ tradeDate }})</span>
+          <span>日期({{ tradeDate }})</span>
           <span style="float: right">仓位标准：{{ position }}</span>
         </div>
         <!--<div style="margin-bottom: 10px;">-->
@@ -40,8 +40,8 @@
               <td colspan="1" rowspan="1" style="text-align: center"><div>指数名称</div></td>
               <td colspan="1" rowspan="1" style="text-align: center"><div>涨跌幅</div></td>
               <td colspan="1" rowspan="1" style="text-align: center"><div>风险分析</div></td>
-              <td colspan="1" rowspan="1" style="text-align: center"><div>定投信号</div></td>
-              <td colspan="1" rowspan="1" style="text-align: center"><div>波段信号</div></td>
+              <!--<td colspan="1" rowspan="1" style="text-align: center"><div>定投信号</div></td>-->
+              <!--<td colspan="1" rowspan="1" style="text-align: center"><div>波段信号</div></td>-->
             </tr>
           </thead>
           <tbody>
@@ -54,16 +54,16 @@
                   <span v-if="item.fb === 'g'">风险系数:{{ formatXS(item.qdiff) }}</span>
                 </div>
               </td>
-              <td colspan="1" rowspan="1">
-                <div v-if="item.buyNum" class="cell red-bg" style="color: #fff">定投{{ item.buyNum }}份</div>
-              </td>
-              <td colspan="1" rowspan="1">
-                <div
-                  :class="{'red-bg': item.flag === '加仓', 'green-bg': item.flag === '减仓'}"
-                  class="cell"
-                  style="color: #fff"
-                >{{ item.flag }}</div>
-              </td>
+              <!--<td colspan="1" rowspan="1">-->
+              <!--<div v-if="item.buyNum" class="cell red-bg" style="color: #fff">定投{{ item.buyNum }}份</div>-->
+              <!--</td>-->
+              <!--<td colspan="1" rowspan="1">-->
+              <!--<div-->
+              <!--:class="{'red-bg': item.flag === '加仓', 'green-bg': item.flag === '减仓'}"-->
+              <!--class="cell"-->
+              <!--style="color: #fff"-->
+              <!--&gt;{{ item.flag }}</div>-->
+              <!--</td>-->
             </tr>
           </tbody>
         </table>
