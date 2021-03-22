@@ -153,6 +153,20 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: `/gzh`,
+    name: '公众号',
+    meta: { title: '公众号', icon: 'el-icon-light-rain' },
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '公众号-1',
+        component: () => import('@/views/gzh/index.vue'),
+        meta: { title: '公众号' }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 
