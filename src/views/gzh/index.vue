@@ -45,13 +45,16 @@
         </div>
         <div>
           <div v-if="imgUrlT">
-            <img :src="imgUrlT" alt="" style="width: 445px;height: 140px">
+            <img :src="imgUrlT" alt="">
           </div>
           <div id="i-gzb-p">
             <div class="f-l-t" style="margin-top: 8px">
-              <div style="margin-bottom: 10px">点击左下角“阅读原文”</div>
-              <div style="margin-bottom: 10px">或</div>
-              <div>公众号菜单打开信号工具！</div>
+              <div style="margin-bottom: 10px">
+                <img src="./搜索框传播样式-白色版.png" class="b-s-r">
+              </div>
+              <div>
+                <div style="padding-left: 10px">点击左下角“阅读原文”或公众号菜单打开信号工具！</div>
+              </div>
             </div>
             <div class="f-t">
               <img src="./链接二维码.png" alt="" class="b-qr">
@@ -189,12 +192,11 @@ export default {
     overflow-y: auto;
   }
   .b-qr {
-    width: 100px;
     height: 100px;
   }
   #i-gzb-p {
     display: inline-block;
-    padding: 12px;
+    padding: 0 12px;
   }
   .b-b-t {
     font-size: 12px;
@@ -206,7 +208,10 @@ export default {
   .f-l-t {
     display: inline-block;
     vertical-align: top;
-    font-size: 24px;
-    margin-right: 30px;
+    font-size: 16px;
+    margin-right: 60px;
+  }
+  .b-s-r {
+    height: 60px;
   }
 </style>
