@@ -111,6 +111,7 @@ export default {
   data() {
     return {
       list: [],
+      listRaw: [],
       listGreen: [],
       imgUrl: '',
       tradeDate: '',
@@ -199,6 +200,28 @@ export default {
       })
       return newList
     },
+    sortV() {
+      const newList = []
+      this.listRaw.forEach((item) => {
+        let qdiffG = item.qdiff
+        if (item.stockIndexPSF) {
+          qdiffG = -Math.abs(qdiffG)
+        }
+        newList.push({
+          ...item,
+          qdiffG: qdiffG
+        })
+      })
+      newList.sort((a, b) => {
+        return b.qdiffG - a.qdiffG
+      })
+      return newList
+    },
+    sortIndex() {
+      // this.list = this.setSort(this.listRaw)
+      this.list = this.sortV(this.listRaw)
+      // this.list = this.listRaw
+    },
     setColor(v) {
       let r = (Math.abs(v.qdiff) * 3) + 10
       if (r > 90) {
@@ -253,7 +276,8 @@ export default {
             newList.push(v)
           }
         })
-        this.list = this.setSort(newList)
+        this.listRaw = newList
+        this.sortIndex()
       })
     }
   }
