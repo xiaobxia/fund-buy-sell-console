@@ -56,6 +56,7 @@
                 <div style="padding-left: 10px">点击左下角“阅读原文”或公众号菜单打开信号工具！</div>
               </div>
             </div>
+            <img src="./微信图片_20210324201105.png" alt="" class="a-i">
             <div class="f-t">
               <img src="./链接二维码.png" alt="" class="b-qr">
               <div class="b-b-t">长按扫码打开工具</div>
@@ -77,7 +78,7 @@ export default {
       imgUrl: '',
       imageUrl: '',
       text: '交易手记',
-      activeName: 'first',
+      activeName: 'second',
       imgUrlT: ''
     }
   },
@@ -209,9 +210,14 @@ export default {
     display: inline-block;
     vertical-align: top;
     font-size: 16px;
-    margin-right: 60px;
+    margin-right: 30px;
   }
   .b-s-r {
     height: 60px;
+  }
+  .a-i {
+    vertical-align: top;
+    height: 120px;
+    margin-right: 30px;
   }
 </style>
