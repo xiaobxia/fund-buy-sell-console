@@ -38,7 +38,7 @@
         <!--<div class="n-t">{{ item.netChangeRatio }}</div>-->
         <!--</div>-->
         <!--</div>-->
-        <table class="print-table" style="width: 100%;display: none" border="1" cellspacing="0">
+        <table class="print-table" style="width: 100%;" border="1" cellspacing="0">
           <thead style="text-align: center">
             <tr>
               <td colspan="1" rowspan="1" style="text-align: center"><div>指数名称</div></td>
