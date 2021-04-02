@@ -329,7 +329,7 @@ export default {
       display: inline-block;
       width: 260px;
       vertical-align: top;
-      font-size: 10px;
+      font-size: 12px;
       p {
         margin: 0;
       }
@@ -360,7 +360,7 @@ export default {
     z-index: 100;
     background-color: #fff;
     width: 350px!important;
-    line-height: 1.6em;
+    line-height: 1.4em;
   }
   .wbsi {
     z-index: 1;
