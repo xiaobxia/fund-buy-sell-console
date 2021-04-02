@@ -1,7 +1,11 @@
 <template>
   <el-card class="box-card-body">
     <div class="filter-container">
-      <el-button type="primary" size="small" @click="printHandler">生成图片</el-button>
+      <el-radio-group v-model="radio">
+        <el-radio :label="1">公众号</el-radio>
+        <el-radio :label="2">微博</el-radio>
+      </el-radio-group>
+      <el-button style="margin-left: 10px" type="primary" size="small" @click="printHandler">生成图片</el-button>
     </div>
     <div class="p-e">
       <div v-if="imgUrl">
@@ -12,7 +16,7 @@
           style="text-align: left;margin-bottom: 10px;font-size: 22px"
         >
           <span>日期({{ tradeDate }})</span>
-          <span style="float: right">仓位标准：{{ position }}</span>
+          <span style="float: right">市场评分：{{ position }}</span>
         </div>
         <!--<div style="margin-bottom: 10px;">-->
         <!--<span class="t-t">指数安全区</span>-->
@@ -34,7 +38,7 @@
         <!--<div class="n-t">{{ item.netChangeRatio }}</div>-->
         <!--</div>-->
         <!--</div>-->
-        <table class="print-table" style="width: 100%" border="1" cellspacing="0">
+        <table class="print-table" style="width: 100%;display: none" border="1" cellspacing="0">
           <thead style="text-align: center">
             <tr>
               <td colspan="1" rowspan="1" style="text-align: center"><div>指数名称</div></td>
@@ -68,13 +72,13 @@
           </tbody>
         </table>
         <div class="g-q">
-          <div class="w-t">
+          <div :class="{wbs: radio === 2}" class="w-t">
             <div class="disclaimer">
               <p style="margin-top: 10px">【养基定投波段】提供的任何信息或意见仅供参考，并不构成任何人的投资建议。投资者不得直接据此作出买入或卖出判断，否则自行承担投资风险。</p>
               <p>温馨提示:基金有风险，投资需谨慎。</p>
             </div>
           </div>
-          <img src="../../assets/gzhQrb.png" alt="">
+          <img :class="{wbsi: radio === 2}" src="../../assets/gzhQrb.png" alt="">
         </div>
       </div>
     </div>
@@ -119,7 +123,8 @@ export default {
       codeKeyMap,
       nameKeyMap,
       bandList: [],
-      position: 0
+      position: 0,
+      radio: 1
     }
   },
   computed: {
@@ -349,5 +354,16 @@ export default {
     .cell {
       padding: 0 10px;
     }
+  }
+  .wbs {
+    position: relative;
+    z-index: 100;
+    background-color: #fff;
+    width: 350px!important;
+    line-height: 1.6em;
+  }
+  .wbsi {
+    z-index: 1;
+    top: -5px!important;
   }
 </style>
