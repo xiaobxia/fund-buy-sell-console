@@ -4,6 +4,7 @@
       <el-radio-group v-model="radio">
         <el-radio :label="1">公众号</el-radio>
         <el-radio :label="2">微博</el-radio>
+        <el-radio :label="3">微博评论风格</el-radio>
       </el-radio-group>
       <el-button style="margin-left: 10px" type="primary" size="small" @click="printHandler">生成图片</el-button>
     </div>
@@ -71,14 +72,27 @@
             </tr>
           </tbody>
         </table>
-        <div class="g-q">
+        <div v-if="radio === 1 || radio === 2" class="g-q">
           <div :class="{wbs: radio === 2}" class="w-t">
             <div class="disclaimer">
-              <p style="margin-top: 10px">【养基定投波段】提供的任何信息或意见仅供参考，并不构成任何人的投资建议。投资者不得直接据此作出买入或卖出判断，否则自行承担投资风险。</p>
-              <p>温馨提示:基金有风险，投资需谨慎。</p>
+              <p style="margin-top: 10px">{{ text1 }}</p>
+              <p>{{ text2 }}</p>
             </div>
           </div>
-          <img :class="{wbsi: radio === 2}" src="../../assets/gzhQrb.png" alt="">
+          <img
+            :class="{wbsi: radio === 2}"
+            src="../../assets/gzhQrb.png"
+            alt=""
+          >
+        </div>
+        <div v-if="radio === 3" class="g-q">
+          <div class="m-t">更多指数分析，请看评论区 ↓ </div>
+          <div class="w-p-t">
+            <div class="disclaimer">
+              <p style="margin-top: 10px">{{ text1 }}</p>
+              <p>{{ text2 }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -124,7 +138,9 @@ export default {
       nameKeyMap,
       bandList: [],
       position: 0,
-      radio: 1
+      radio: 1,
+      text1: '【养基定投波段】提供的任何信息或意见仅供参考，并不构成任何人的投资建议。投资者不得直接据此作出买入或卖出判断，否则自行承担投资风险。',
+      text2: '温馨提示:基金有风险，投资需谨慎。'
     }
   },
   computed: {
@@ -365,5 +381,18 @@ export default {
   .wbsi {
     z-index: 1;
     top: -5px!important;
+  }
+  .m-t {
+    margin-top: 12px;
+    color: red;
+    font-size: 24px;
+    text-align: center;
+  }
+  .w-p-t {
+    vertical-align: top;
+    font-size: 12px;
+    p {
+      margin: 0;
+    }
   }
 </style>
