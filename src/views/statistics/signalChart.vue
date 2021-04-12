@@ -134,6 +134,10 @@ export default {
       const xData = ['']
       const yData = [0]
       const points = []
+      // 面积
+      const pieces = []
+      let areaFlag = 'red'
+      let areaIndex = 0
       // 最近的在前面
       recentNetValue.forEach((item, index) => {
         const x = moment(item['trade_date']).format('M/D')
@@ -141,7 +145,6 @@ export default {
         xData.push(x)
         yData.push(y)
         const signalAll = this.signalMap[moment(item['trade_date']).format('YYYY-MM-DD')]
-        console.log(signalAll)
         if (signalAll && signalAll.bandMap && signalAll.bandMap[indexInfo.key]) {
           const sign = signalAll.bandMap[indexInfo.key]
           if (sign.flag) {
@@ -151,8 +154,43 @@ export default {
               points.push(this.createPoint(x, y, 'green', sign.flag))
             }
           }
+          const redColor = 'rgba(245,108,108, 0.4)'
+          const greenColor = 'rgba(103,194,58, 0.4)'
+          // 最后一个
+          if (areaIndex !== index && index === recentNetValue.length - 1) {
+            pieces.push({
+              gt: areaIndex,
+              lte: index + 1,
+              color: areaFlag === 'red' ? redColor : greenColor
+            })
+            return
+          }
+          if (!sign.stockIndexPSF && sign.qdiff > 0) {
+            // red
+            if (areaFlag !== 'red') {
+              areaFlag = 'red'
+              pieces.push({
+                gt: areaIndex,
+                lte: index,
+                color: greenColor
+              })
+              areaIndex = index
+            }
+          } else {
+            // green
+            if (areaFlag !== 'green') {
+              areaFlag = 'green'
+              pieces.push({
+                gt: areaIndex,
+                lte: index,
+                color: redColor
+              })
+              areaIndex = index
+            }
+          }
         }
       })
+      console.log(pieces)
       this.chart.setOption({
         title: {
           text: `信号-${indexInfo.realName || indexInfo.name}`,
@@ -177,6 +215,13 @@ export default {
           data: xData,
           boundaryGap: false
         },
+        visualMap: {
+          type: 'piecewise',
+          show: false,
+          dimension: 0,
+          seriesIndex: 0,
+          pieces: pieces
+        },
         yAxis: [
           {
             type: 'value',
@@ -200,6 +245,7 @@ export default {
             },
             smooth: false,
             symbol: 'none',
+            areaStyle: {},
             markPoint: {
               data: points,
               symbol: 'circle',
