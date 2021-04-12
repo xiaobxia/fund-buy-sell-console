@@ -178,6 +178,12 @@ export const asyncRouterMap = [
         name: '近期涨幅-1',
         component: () => import('@/views/statistics/recentIncrease.vue'),
         meta: { title: '近期涨幅' }
+      },
+      {
+        path: 'signalChart',
+        name: '信号-1',
+        component: () => import('@/views/statistics/signalChart.vue'),
+        meta: { title: '信号' }
       }
     ]
   },
