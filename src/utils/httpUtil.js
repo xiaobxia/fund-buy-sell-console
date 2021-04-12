@@ -7,6 +7,8 @@ import authUtil from '@/utils/authUtil'
 import appCommonUtil from '@/utils/appCommonUtil'
 import setting from '@/setting'
 
+const fsIp = 'http://47.98.140.76:3020/fundServer/'
+
 let basePath = '/'
 // 默认连接地址，只在调试时有用
 if (process.env.NODE_ENV === 'development') {
@@ -115,6 +117,23 @@ const Http = {
   post(url, param, options) {
     return axios
       .post(makeUrl(url), param, options)
+      .then(data => data.data)
+  },
+  getFs(url, query, options) {
+    let queryString = ''
+    if (query) {
+      query.uuId = new Date().getTime()
+    } else {
+      query = { uuId: new Date().getTime() }
+    }
+    queryString = qs.stringify(query)
+    return axios
+      .get(fsIp + url + (queryString ? '?' + queryString : ''), options)
+      .then(data => data.data)
+  },
+  postFs(url, param, options) {
+    return axios
+      .post(fsIp + url, param, options)
       .then(data => data.data)
   },
   put(url, param, options) {

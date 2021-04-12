@@ -156,7 +156,7 @@ export const asyncRouterMap = [
   {
     path: `/gzh`,
     name: '公众号',
-    meta: { title: '公众号', icon: 'el-icon-light-rain' },
+    meta: { title: '公众号', icon: 'el-icon-bangzhu' },
     component: Layout,
     children: [
       {
@@ -164,6 +164,20 @@ export const asyncRouterMap = [
         name: '公众号-1',
         component: () => import('@/views/gzh/index.vue'),
         meta: { title: '公众号' }
+      }
+    ]
+  },
+  {
+    path: `/statistics`,
+    name: '统计',
+    meta: { title: '统计', icon: 'el-icon-pie-chart' },
+    component: Layout,
+    children: [
+      {
+        path: 'recentIncrease',
+        name: '近期涨幅-1',
+        component: () => import('@/views/statistics/recentIncrease.vue'),
+        meta: { title: '近期涨幅' }
       }
     ]
   },
