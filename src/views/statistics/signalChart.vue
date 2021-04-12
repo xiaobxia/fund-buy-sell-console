@@ -71,7 +71,7 @@ export default {
       bandList: [],
       position: 0,
       radio: 1,
-      startDate: '2021-03-24',
+      startDate: '2021-03-25',
       indexName: indexList[0].name,
       id: 'BandChart',
       klineList: [],
