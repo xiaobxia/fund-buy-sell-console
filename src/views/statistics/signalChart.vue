@@ -23,6 +23,16 @@
         <div id="BandChart-wrap" class="chart-wrap">
           <div :id="id" :style="{height:'384px',width: '637px'}"/>
         </div>
+        <div class="r-t">
+          <span class="sq-tag" style="background-color: rgba(245,108,108, 0.4)"/>
+          <span class="r-tt">安全区</span>
+          <span class="sq-tag" style="background-color: rgba(103,194,58, 0.4)"/>
+          <span class="r-tt">风险区</span>
+          <span class="c-tag" style="background-color: red"/>
+          <span class="r-tt">加仓</span>
+          <span class="c-tag" style="background-color: green"/>
+          <span class="r-tt">减仓</span>
+        </div>
       </div>
     </div>
   </el-card>
@@ -202,7 +212,8 @@ export default {
         },
         grid: {
           left: '4%',
-          right: '3%'
+          right: '3%',
+          bottom: '8%'
         },
         tooltip: {
           trigger: 'axis',
@@ -295,8 +306,9 @@ export default {
     width: 657px;
   }
   #s-s-c {
-    padding: 20px 10px 20px 10px;
+    padding: 30px 10px 0 10px;
     width: 657px;
+    position: relative;
   }
   .t-t {
     font-size: 22px;
@@ -365,4 +377,28 @@ export default {
       margin: 0;
     }
   }
+  .r-t {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    line-height: 16px;
+    .r-tt {
+
+    }
+    .sq-tag {
+      display: inline-block;
+      width: 20px;
+      height: 16px;
+      border-radius: 4px;
+      vertical-align: top;
+    }
+    .c-tag {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 16px;
+      vertical-align: top;
+    }
+  }
+
 </style>
