@@ -21,7 +21,7 @@
       </div>
       <div id="s-s-c">
         <div id="BandChart-wrap" class="chart-wrap">
-          <div :id="id" :style="{height:'384px',width: '637px'}"/>
+          <div :id="id" :style="{height:'380px',width: '800px'}"/>
         </div>
         <div class="r-t">
           <span class="sq-tag" style="background-color: rgba(245,108,108, 0.4)"/>
@@ -303,11 +303,11 @@ export default {
     overflow-y: auto;
   }
   .c-i {
-    width: 657px;
+    width: 820px;
   }
   #s-s-c {
     padding: 30px 10px 0 10px;
-    width: 657px;
+    width: 820px;
     position: relative;
   }
   .t-t {
