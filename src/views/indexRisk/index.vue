@@ -72,6 +72,7 @@
             </tr>
           </tbody>
         </table>
+        <!--引流推广的图里面最好不要出现公众号的字样，用微信的图标然后一个放大镜，大家就知道是微信里面搜索了-->
         <div v-if="radio === 1 || radio === 2" class="g-q">
           <div :class="{wbs: radio === 2}" class="w-t">
             <div class="disclaimer">
