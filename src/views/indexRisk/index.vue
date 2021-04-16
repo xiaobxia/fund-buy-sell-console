@@ -5,6 +5,7 @@
         <el-radio :label="1">公众号</el-radio>
         <el-radio :label="2">微博</el-radio>
         <el-radio :label="3">微博评论风格</el-radio>
+        <el-radio :label="4">水印风格</el-radio>
       </el-radio-group>
       <el-button style="margin-left: 10px" type="primary" size="small" @click="printHandler">生成图片</el-button>
     </div>
@@ -12,33 +13,13 @@
       <div v-if="imgUrl">
         <img :src="imgUrl" alt="" class="c-i">
       </div>
-      <div id="i-r-p" style="position: relative;overflow: hidden">
+      <div id="i-r-p" style="position: relative;">
         <div
           style="text-align: left;margin-bottom: 10px;font-size: 22px"
         >
           <span>日期({{ tradeDate }})</span>
           <span style="float: right">市场评分：{{ position }}</span>
         </div>
-        <!--<div style="margin-bottom: 10px;">-->
-        <!--<span class="t-t">指数安全区</span>-->
-        <!--<span>(指数名称+安全系数)</span>-->
-        <!--</div>-->
-        <!--<div class="clearfix">-->
-        <!--<div v-for="item in list" :key="item.key" :style="getBg(item.color)" class="ety">-->
-        <!--<span>{{ nameMap[item.name] }}</span>-->
-        <!--<div class="n-t">{{ item.netChangeRatio }}</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div style="margin: 10px 0;">-->
-        <!--<span class="t-t">指数风控区</span>-->
-        <!--<span>(指数名称+风险系数)</span>-->
-        <!--</div>-->
-        <!--<div class="clearfix">-->
-        <!--<div v-for="item in listGreen" :key="item.key" :style="getBg(item.color)" class="ety">-->
-        <!--<div>{{ nameMap[item.name] }}</div>-->
-        <!--<div class="n-t">{{ item.netChangeRatio }}</div>-->
-        <!--</div>-->
-        <!--</div>-->
         <table class="print-table" style="width: 100%;" border="1" cellspacing="0">
           <thead style="text-align: center">
             <tr>
@@ -73,19 +54,27 @@
           </tbody>
         </table>
         <!--引流推广的图里面最好不要出现公众号的字样，用微信的图标然后一个放大镜，大家就知道是微信里面搜索了-->
-        <div v-if="radio === 1 || radio === 2" class="g-q">
-          <div :class="{wbs: radio === 2}" class="w-t">
+        <!--公众号-->
+        <div v-if="radio === 1" class="g-q">
+          <div class="w-t">
             <div class="disclaimer">
               <p style="margin-top: 10px">{{ text1 }}</p>
               <p>{{ text2 }}</p>
             </div>
           </div>
-          <img
-            :class="{wbsi: radio === 2}"
-            src="../../assets/gzhQrb.png"
-            alt=""
-          >
+          <img src="../../assets/gzhQrb.png" alt="">
         </div>
+        <!--微博-->
+        <div v-if="radio === 2" class="g-q">
+          <div class="w-t wbs">
+            <div class="disclaimer">
+              <p style="margin-top: 10px">{{ text1 }}</p>
+              <p>{{ text2 }}</p>
+            </div>
+          </div>
+          <img class="wbsi" src="../../assets/gzhQrb.png" alt="">
+        </div>
+        <!--微博评论风格-->
         <div v-if="radio === 3" class="g-q">
           <div class="m-t">更多指数分析，请看评论区 ↓ </div>
           <div class="w-p-t">
@@ -95,6 +84,18 @@
             </div>
           </div>
         </div>
+        <!--水印版本-->
+        <template v-if="radio === 4">
+          <div id="ww-w" style="position: absolute;width: 100%;height: 100%;left: 0;top: 0;overflow: hidden"/>
+          <div class="g-q">
+            <div class="w-p-t">
+              <div class="disclaimer">
+                <p style="margin-top: 10px">{{ text1 }}</p>
+                <p>{{ text2 }}</p>
+              </div>
+            </div>
+          </div>
+        </template>
       </div>
     </div>
   </el-card>
@@ -148,17 +149,19 @@ export default {
   computed: {
   },
   watch: {
-    list() {
-      this.$nextTick(() => {
-        const element = document.getElementById('i-r-p')
-        watermark(element, {
-          text1: 'vx：养基定投波段',
-          text2: '',
-          fontSize: 20, // 字体
-          width: 200, // 宽度
-          height: 40 // 长度
+    radio(val) {
+      if (val === 4) {
+        this.$nextTick(() => {
+          const element = document.getElementById('ww-w')
+          watermark(element, {
+            text1: 'vx：养基定投波段',
+            text2: '',
+            fontSize: 20, // 字体
+            width: 200, // 宽度
+            height: 40 // 长度
+          })
         })
-      })
+      }
     }
   },
   created() {
