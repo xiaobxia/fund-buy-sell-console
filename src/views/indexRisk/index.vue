@@ -103,6 +103,7 @@
 <script>
 import themeUtil from '@/utils/themeUtil.js'
 import indexList from '@/common/indexList'
+import watermark from '@/utils/watermark.js'
 
 const indexSort = [
   'chuangye', 'chuangWL', 'wulin', 'sanbai', 'wubai', 'yiqian',
@@ -145,6 +146,14 @@ export default {
     }
   },
   computed: {
+  },
+  watch: {
+    list() {
+      this.$nextTick(() => {
+        const element = document.getElementById('i-r-p')
+        watermark(element)
+      })
+    }
   },
   created() {
     this.queryBandFix()
