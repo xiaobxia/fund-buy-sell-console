@@ -12,7 +12,7 @@
       <div v-if="imgUrl">
         <img :src="imgUrl" alt="" class="c-i">
       </div>
-      <div id="i-r-p">
+      <div id="i-r-p" style="position: relative;overflow: hidden">
         <div
           style="text-align: left;margin-bottom: 10px;font-size: 22px"
         >
@@ -151,7 +151,13 @@ export default {
     list() {
       this.$nextTick(() => {
         const element = document.getElementById('i-r-p')
-        watermark(element)
+        watermark(element, {
+          text1: 'vx：养基定投波段',
+          text2: '',
+          fontSize: 20, // 字体
+          width: 200, // 宽度
+          height: 40 // 长度
+        })
       })
     }
   },
