@@ -78,7 +78,7 @@ export default {
       imgUrl: '',
       imageUrl: '',
       text: '交易手记',
-      activeName: 'second',
+      activeName: 'first',
       imgUrlT: ''
     }
   },
