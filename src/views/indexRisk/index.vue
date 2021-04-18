@@ -73,6 +73,7 @@
             </div>
           </div>
           <img class="wbsi" src="../../assets/gzhQrb.png" alt="">
+          <div class="wx-m"/>
         </div>
         <!--微博评论风格-->
         <div v-if="radio === 3" class="g-q">
@@ -141,7 +142,7 @@ export default {
       nameKeyMap,
       bandList: [],
       position: 0,
-      radio: 1,
+      radio: 2,
       text1: '【养基定投波段】提供的任何信息或意见仅供参考，并不构成任何人的投资建议。投资者不得直接据此作出买入或卖出判断，否则自行承担投资风险。',
       text2: '温馨提示:基金有风险，投资需谨慎。'
     }
@@ -413,5 +414,14 @@ export default {
     p {
       margin: 0;
     }
+  }
+  .wx-m {
+    position: absolute;
+    background-color: #fff;
+    width: 40px;
+    right: 63px;
+    bottom: 37px;
+    z-index: 999;
+    height: 30px;
   }
 </style>
