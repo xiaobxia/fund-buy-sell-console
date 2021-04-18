@@ -85,7 +85,7 @@
           </div>
         </div>
         <!--水印版本-->
-        <template v-if="radio === 4">
+        <div v-if="radio === 4">
           <div id="ww-w" style="position: absolute;width: 100%;height: 100%;left: 0;top: 0;overflow: hidden"/>
           <div class="g-q">
             <div class="w-p-t">
@@ -95,7 +95,7 @@
               </div>
             </div>
           </div>
-        </template>
+        </div>
       </div>
     </div>
   </el-card>
