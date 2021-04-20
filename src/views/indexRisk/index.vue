@@ -418,8 +418,8 @@ export default {
   .wx-m {
     position: absolute;
     background-color: #fff;
-    width: 40px;
-    right: 63px;
+    width: 44px;
+    right: 62px;
     bottom: 37px;
     z-index: 999;
     height: 30px;
