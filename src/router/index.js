@@ -184,6 +184,12 @@ export const asyncRouterMap = [
         name: '信号-1',
         component: () => import('@/views/statistics/signalChart.vue'),
         meta: { title: '信号' }
+      },
+      {
+        path: 'tablePrint',
+        name: '表格打印-1',
+        component: () => import('@/views/statistics/tablePrint.vue'),
+        meta: { title: '表格打印' }
       }
     ]
   },
