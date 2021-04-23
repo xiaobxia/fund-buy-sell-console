@@ -155,7 +155,7 @@ export default {
         this.$nextTick(() => {
           const element = document.getElementById('ww-w')
           watermark(element, {
-            text1: 'vx：养基定投波段',
+            text1: '<div>vx：养基定投波段</div>',
             text2: '',
             fontSize: 20, // 字体
             width: 200, // 宽度

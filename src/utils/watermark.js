@@ -48,11 +48,11 @@ export default function watermark(element, config) {
       item.style.textAlign = 'center'
       // 创建text1水印节点
       const text1 = document.createElement('div')
-      text1.appendChild(document.createTextNode(_config.text1))
+      text1.innerHTML = _config.text1
       item.append(text1)
       // 创建text2水印节点
       const text2 = document.createElement('div')
-      text2.appendChild(document.createTextNode(_config.text2))
+      text2.innerHTML = _config.text2
       item.append(text2)
       // 添加水印节点到文本碎片
       mark.append(item)
